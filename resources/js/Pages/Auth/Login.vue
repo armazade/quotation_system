@@ -5,6 +5,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import InputLabel from "@/Components/Form/Elements/InputLabel.vue";
 import TextInput from "@/Components/Form/Elements/TextInput.vue";
 import Checkbox from "@/Components/Form/Elements/Checkbox.vue";
+import InputError from "@/Components/InputError.vue";
 
 
 defineProps({

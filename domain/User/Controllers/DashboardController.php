@@ -3,8 +3,6 @@
 namespace Domain\User\Controllers;
 
 use App\Http\Controllers\Controller;
-use Domain\Order\Enums\OrderStatusType;
-use Domain\Order\Models\Order;
 use Domain\User\Enums\PermissionType;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
