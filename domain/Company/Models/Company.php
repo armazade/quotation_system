@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
@@ -49,9 +48,7 @@ use Illuminate\Support\Carbon;
  * @property IndustryType|null $industry_type
  * @property string|null $exact_id
  * @property int $credit_balance
- * @property-read Collection<int, Comment> $comments
  * @property-read int|null $comments_count
- * @property-read Collection<int, CreditTransaction> $creditTransactions
  * @property-read int|null $credit_transactions_count
  * @property-read CompanyLocation|null $defaultLocation
  * @property-read mixed $full_phone_number
@@ -59,7 +56,6 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $locations_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read Collection<int, Order> $orders
  * @property-read int|null $orders_count
  * @property-read Collection<int, Product> $products
  * @property-read int|null $products_count
@@ -100,13 +96,11 @@ class Company extends Model
 {
     use HasFactory;
     use HasUuids;
-    use SoftDeletes;
     use Notifiable;
 
     protected $casts = [
         'phone_country_code' => CountryCodeType::class,
         'company_type' => CompanyType::class,
-        'subscription_type' => SubscriptionType::class,
         'industry_type' => IndustryType::class,
         'is_schut' => 'boolean',
     ];
@@ -121,10 +115,6 @@ class Company extends Model
         return $this->hasMany(CompanyLocation::class, 'company_id', 'id')->orderBy('is_default')->orderByDesc('created_at');
     }
 
-    public function comments(): HasMany
-    {
-        return $this->hasMany(Comment::class, 'company_id', 'id')->orderByDesc('created_at');
-    }
 
     public function products(): HasMany
     {
@@ -136,10 +126,6 @@ class Company extends Model
         return $this->hasOne(CompanyLocation::class, 'company_id', 'id')->where('is_default', 1);
     }
 
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class, 'company_id', 'id')->orderByDesc('created_at');
-    }
 
     public function quotations(): HasMany
     {

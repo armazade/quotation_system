@@ -3,8 +3,6 @@
 namespace Domain\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use Domain\Order\Enums\OrderStatusType;
-use Domain\Order\Services\OrderService;
 use Inertia\Inertia;
 use Inertia\Response;
 

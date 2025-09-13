@@ -1,3 +1,3 @@
 <template>
-    <img alt="" src="/public/images/schut_logo.png">
+    <img alt="Schut Logo" src="/images/schut_logo.png">
 </template>

@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -89,7 +88,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    use SoftDeletes;
     use HasUuids;
     use HasRoles;
 
