@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domain\Company\Enums\CompanyType;
+use Domain\Company\Models\Company;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,15 +12,18 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * @return void
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $seeders = [];
+        $seeders[] = RolePermissionSeeder::class;
+        $seeders[] = SchutCompanyDataSeeder::class;
+        $seeders[] = DummyDataSeeder::class;
+        $seeders[] = ClientSeeder::class;
 
-        User::factory()->create([
-            'first_name' => 'Test',
-            'last_name' => 'User',
-            'email' => 'test@example.com',
-        ]);
+        $this->call($seeders);
+
     }
 }

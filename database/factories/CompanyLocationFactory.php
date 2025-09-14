@@ -28,10 +28,10 @@ class CompanyLocationFactory extends Factory
         ];
 
         if (DatabaseSeeder::LOCATION_OVERRIDE) {
-            $data['address_line_1'] = 'Portugallaan 44';
+            $data['address_line_1'] = 'Duinkerkstraat 21';
             $data['address_line_2'] = null;
-            $data['zip_code'] = '9403 DS';
-            $data['city'] = 'Assen';
+            $data['zip_code'] = '9723 BN ';
+            $data['city'] = 'Groningen';
             $data['country'] = CountryType::NL;
         }
 

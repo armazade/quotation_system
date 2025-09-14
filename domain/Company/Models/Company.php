@@ -6,7 +6,6 @@ use Database\Factories\CompanyFactory;
 use Domain\Company\Enums\CompanyType;
 use Domain\Company\Enums\CountryCodeType;
 use Domain\Company\Enums\IndustryType;
-use Domain\Order\Models\Order;
 use Domain\Product\Models\Product;
 use Domain\Quotation\Models\Quotation;
 use Domain\User\Models\User;

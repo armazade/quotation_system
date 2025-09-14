@@ -10,20 +10,37 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('phone_number');
-            $table->string('phone_country_code');
-            $table->string('company_type');
-            $table->string('subscription_type');
-            $table->string('industry_type');
-            $table->boolean('is_schut')->default(false);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->string('company_type');
+            $table->boolean('is_schut')->default(false);
+
+            $table->string('name');
+            $table->string('email')->nullable();
+
+            $table->string('phone_country_code')->nullable();
+            $table->string('phone_number')->nullable();
+
+            $table->string('website')->nullable();
+            $table->string('legal_owner')->nullable();
+
+            $table->string('vat_number')->nullable();
+            $table->string('coc_number')->nullable();
+            $table->string('iban_number')->nullable();
+            $table->string('bic_number')->nullable();
+
+            $table->timestamp('vat_number_validated_at')->nullable();
+
+            $table->string('industry_type')->nullable();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('companies');
-    }
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('company_id');
+        });
+
+        Schema::dropIfExists('companies');    }
 };

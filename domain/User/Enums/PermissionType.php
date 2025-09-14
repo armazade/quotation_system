@@ -9,9 +9,6 @@ enum PermissionType: string
     case ADMIN_COMPANY_LIST = 'admin_company_list';
     case ADMIN_COMPANY_READ = 'admin_company_read';
 
-    case ADMIN_ORDER_LIST = 'admin_order_list';
-    case ADMIN_ORDER_READ = 'admin_order_read';
-
     case ADMIN_QUOTATION_LIST = 'admin_quotation_list';
     case ADMIN_QUOTATION_READ = 'admin_quotation_read';
 
@@ -24,9 +21,6 @@ enum PermissionType: string
 
     case CLIENT_COMPANY_READ = 'client_company_read';
     case CLIENT_COMPANY_UPDATE = 'client_company_update';
-
-    case CLIENT_ORDER_LIST = 'client_order_list';
-    case CLIENT_ORDER_READ = 'client_order_read';
 
     case CLIENT_QUOTATION_LIST = 'client_quotation_list';
     case CLIENT_QUOTATION_READ = 'client_quotation_read';
