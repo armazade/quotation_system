@@ -10,7 +10,7 @@ use Domain\Product\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', 'admin'])->prefix('/admin')->group(callback: function () {
-    Route::get('/dashboard', [DashboardController::class, '__invoke'])->name('admin.dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('admin.dashboard');
 
     Route::get('/users', [UserController::class, 'index'])->name('admin.user.index');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('admin.user.show');
