@@ -2,8 +2,8 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AllowAdmin;
-use App\Http\Middleware\AllowClient;
+//use App\Http\Middleware\AllowAdmin;
+//use App\Http\Middleware\AllowClient;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -93,7 +93,7 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
-        'admin' => AllowAdmin::class,
-        'client' => AllowClient::class,
+//        'admin' => AllowAdmin::class,
+//        'client' => AllowClient::class,
     ];
 }
