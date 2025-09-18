@@ -37,8 +37,17 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
         $company = $user?->company;
+        
+        $locale = app()->getLocale();
+        $translations = cache()->rememberForever("translations.{$locale}", function () use ($locale) {
+            return array_merge(
+                json_decode(file_get_contents(lang_path("{$locale}.json")), true) ?? [],
+                trans('*', [], $locale)
+            );
+        });
 
         return array_merge(parent::share($request), [
+            '_translations' => $translations,
             'auth' => [
                 'user' => $user ? [
                     'id' => $user->id,
