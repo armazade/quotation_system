@@ -139,7 +139,7 @@ const user = computed(() => usePage().props.auth?.user);
                     <div class="border-t border-gray-200 pb-1 pt-4">
                         <div class="px-4">
                             <div class="text-base font-medium text-gray-800">
-                                {{ user?.name }}
+                                {{ user?.full_name || `${user?.first_name} ${user?.last_name}` }}
                             </div>
                             <div class="text-sm font-medium text-gray-500">
                                 {{ user?.email }}
