@@ -1,15 +1,20 @@
 <script setup>
-import {ref} from 'vue';
+import {ref, computed} from 'vue';
 import Dropdown from "@/Components/Miscellaneous/Dropdown.vue";
 import ApplicationLogo from "@/Components/Miscellaneous/ApplicationLogo.vue";
 import NavLink from "@/Components/Miscellaneous/NavLink.vue";
 import ResponsiveNavLink from "@/Components/Miscellaneous/ResponsiveNavLink.vue";
-import {Link} from "@inertiajs/vue3";
+import {Link, usePage} from "@inertiajs/vue3";
 import DropdownLink from "@/Components/Miscellaneous/DropdownLink.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
-import LinkButton from "@/Components/Buttons/BaseButton.vue";
 
 const showingNavigationDropdown = ref(false);
+const page = usePage();
+const user = computed(() => page.props.auth?.user);
+const fullName = computed(() => {
+    if (!user.value) return '';
+    return `${user.value.first_name} ${user.value.last_name}`;
+});
 
 const activeMenu = {
     dashboard: (route().current('admin.dashboard') || route().current('dashboard')),
@@ -158,7 +163,7 @@ const activeMenu = {
                                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                         type="button"
                                     >
-                                        {{ $page.props.auth.user.full_name }}
+                                        {{ fullName }}
 
                                         <svg
                                             class="ml-2 -mr-0.5 h-4 w-4"
