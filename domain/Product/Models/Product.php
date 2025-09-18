@@ -33,6 +33,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property bool $notify_supplier
  * @property float $unit_price
  * @property string|null $description
+ * @property string|null $article_number
  * @property string|null $info_link
  * @property-read Collection<int, ProductDeliveryOption> $deliveryOptions
  * @property-read int|null $delivery_options_count

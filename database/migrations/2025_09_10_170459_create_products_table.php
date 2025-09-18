@@ -12,13 +12,11 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('article_number');
             $table->boolean('is_active')->default(true);
-            $table->integer('min_order_quantity');
             $table->uuid('supplier_id');
-            $table->boolean('notify_supplier')->default(false);
             $table->decimal('unit_price', 10, 2);
             $table->text('description')->nullable();
-            $table->string('info_link')->nullable();
             $table->timestamps();
 
             $table->foreign('supplier_id')

@@ -10,6 +10,7 @@ class ProductService
     public static function update(Product $product, object $data): Product
     {
         $product->name = $data->name;
+        $product->article_number = $data->article_number;
         $product->description = $data->description ?? null;
         $product->info_link = $data->info_link ?? null;
         $product->is_active = $data->is_active;
