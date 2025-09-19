@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
         $company = $user?->company;
-        
+
         $locale = app()->getLocale();
         $translations = cache()->rememberForever("translations.{$locale}", function () use ($locale) {
             return array_merge(
@@ -67,7 +67,8 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'flash' => [
-                'message' => fn() => $request->session()->get('message')
+                'message' => fn () => $request->session()->get('message'),
+                'warning_list' => fn () => $request->session()->get('warning_list'),
             ],
             'locale' => App::getLocale(),
         ]);
