@@ -29,13 +29,12 @@ class ProductUpdateRequest extends FormRequest
         $rules = [];
         $rules['name'] = ['required', 'string', 'max:255'];
 
-        $rules['article_number'] = ['required', 'string', 'max:255', 'unique:products,article_number,' . $this->route('product')->id];
+        $rules['article_number'] = ['required', 'string', 'max:255'];
 
         $rules['unit_price'] = ['required', 'numeric', 'min:0'];
         $rules['is_active'] = ['required', new BooleanRule()];
 
         $rules['supplier_id'] = ['required', 'exists:companies,id'];
-        $rules['notify_supplier'] = ['required', new BooleanRule()];
 
         $rules['file'] = ['nullable', 'file', 'max:50000', 'image'];
 

@@ -1,3 +1,180 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.base-hr {
+    @apply border-b my-5;
+}
+
+.admin_page_container {
+    @apply max-w-7xl mx-auto sm:px-6 lg:px-8 pb-10;
+
+    .content {
+        @apply flex flex-col space-y-8 mt-6 pb-8;
+    }
+}
+
+.admin_page_header {
+    @apply font-semibold text-xl text-gray-800 leading-tight;
+}
+
+.admin_page_status_container {
+    @apply flex flex-row justify-between -mb-4;
+
+    .button_container {
+        @apply flex flex-row space-x-2;
+    }
+}
+
+.admin_table_title_container {
+    @apply flex flex-row justify-between h-8 mb-3.5;
+
+    & .admin_table_title {
+        @apply my-auto;
+    }
+
+    .button_container {
+        @apply flex flex-row space-x-2 justify-self-end;
+    }
+}
+
+.admin_table_container {
+    @apply overflow-x-auto relative shadow-md sm:rounded-lg;
+
+    & table {
+        @apply table-auto text-left w-full text-sm text-left text-gray-500;
+
+        & thead {
+            @apply text-xs text-gray-700 uppercase;
+
+            & th {
+                @apply bg-gray-200 py-3 px-6;
+            }
+        }
+
+        & tr {
+            @apply bg-white border-b hover:bg-gray-50;
+
+            & td {
+                @apply py-4 px-6 whitespace-nowrap;
+
+                &.action_button_container {
+                    @apply space-x-2 flex flex-row justify-end;
+                }
+            }
+        }
+    }
+}
+
+
+.link {
+    @apply text-blue-500;
+
+    &.disabled {
+        @apply pointer-events-none cursor-default text-gray-500;
+    }
+}
+
+.link:hover {
+    @apply underline cursor-pointer;
+}
+
+.admin_table_title {
+    @apply my-auto text-lg ml-1 font-semibold mb-3;
+}
+
+.link_button {
+    @apply inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150;
+
+    &.button_green {
+        @apply text-white bg-green-500 hover:bg-gray-100 hover:text-black;
+    }
+}
+
+.admin_vertical_table_container {
+    .table_container {
+        @apply bg-white px-4 py-2 rounded-lg;
+
+        & table {
+            @apply table-auto text-left;
+
+            & th {
+                @apply pr-3;
+            }
+
+            & tr td {
+                @apply py-1;
+            }
+        }
+    }
+}
+
+.admin_info_table_container {
+    @apply bg-white sm:rounded-lg p-5 border;
+
+    & table {
+        @apply table-auto text-left;
+
+        & tr td {
+            @apply px-4;
+        }
+    }
+}
+
+.admin_form_container {
+    @apply bg-white overflow-hidden shadow-sm sm:rounded-lg;
+
+    & form {
+        @apply px-6 py-4;
+    }
+
+    .input_group {
+        @apply mb-4;
+    }
+
+    .button_container {
+        @apply flex mb-4 space-x-2;
+    }
+}
+
+.admin_filters {
+    @apply mb-3.5;
+
+    .form_container {
+        @apply grid grid-cols-4 gap-3 mb-3;
+    }
+
+    .results_container {
+        @apply flex flex-row justify-between;
+
+        .results_label {
+            @apply my-auto ml-1;
+        }
+
+        .button_container {
+            @apply flex flex-row space-x-2;
+        }
+    }
+}
+
+.dashboard_card {
+    @apply bg-white rounded-lg py-8 px-2 border transition ease-in-out duration-150;
+
+    p {
+        @apply text-lg text-center font-bold capitalize;
+    }
+
+    &.alternative {
+        @apply bg-green-500 text-white;
+    }
+}
+
+.dashboard_card:hover {
+    @apply bg-gray-50 text-green-500 cursor-pointer border-green-400;
+
+    p {
+        @apply text-black;
+    }
+}
+
+

@@ -20,9 +20,6 @@ const props = defineProps({
     countryCodeTypes: {
         default: null,
     },
-    subscriptionTypes: {
-        default: null,
-    },
 });
 
 function submit(company) {

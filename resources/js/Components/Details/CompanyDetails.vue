@@ -1,9 +1,6 @@
 <script setup>
 
-import {SubscriptionType} from "@/Enums/SubscriptionType";
 import RealButton from "@/Components/Buttons/RealButton.vue";
-import {IndustryType} from "@/Enums/IndustryType";
-import {formatting} from "@/Mixins/formatting";
 
 const props = defineProps({
     company: {
@@ -27,14 +24,7 @@ const props = defineProps({
                         <th>{{ __('company_name') }}</th>
                         <td>{{ company.name }}</td>
                     </tr>
-                    <tr v-if="company.subscription_type">
-                        <th>{{ __('subscription_type') }}</th>
-                        <td>{{ __(SubscriptionType._KEY + company.subscription_type) }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ __('industry_type') }}</th>
-                        <td>{{ __(IndustryType._KEY + company.industry_type) }}</td>
-                    </tr>
+
                     <tr>
                         <th>{{ __('phone_number') }}</th>
                         <td>{{ company.phone_country_code + ' ' + company.phone_number }}</td>
@@ -50,14 +40,6 @@ const props = defineProps({
                                 {{ company.website }}
                             </real-button>
                         </td>
-                    </tr>
-                    <tr>
-                        <th>{{ __('credits') }}</th>
-                        <td>{{ company.credit_balance }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ __('order_total_value') }}</th>
-                        <td>{{ formatting.methods.formatEuro(company.order_total_value ?? 0) }}</td>
                     </tr>
                     </tbody>
                 </table>

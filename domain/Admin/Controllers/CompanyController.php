@@ -7,7 +7,6 @@ use Domain\Admin\Requests\AdminRequest;
 use Domain\Admin\Requests\CompanyDestroyRequest;
 use Domain\Admin\Requests\CompanyUpdateRequest;
 use Domain\Company\Enums\CountryCodeType;
-use Domain\Company\Enums\SubscriptionType;
 use Domain\Company\Models\Company;
 use Domain\Company\Services\CompanyService;
 use Domain\Helper\Enums\FlashMessageType;
@@ -28,39 +27,23 @@ class CompanyController extends Controller
             },
             'quotations.lines',
             'quotations.user',
-            'orders' => function ($query) {
-                return $query->paginate(3);
-            },
-            'orders.lines',
-            'creditTransactions' => function ($query) {
-                return $query->paginate(3);
-            },
             'users',
-            'comments',
-            'comments.user',
         ]);
 
-        $company->append('order_total_value');
 
-        $creditTransactionCount = $company->creditTransactions()->count();
         $quotationCount = $company->quotations()->count();
-        $orderCount = $company->orders()->count();
 
         return Inertia::render('Admin/Company/Show', [
             'company' => $company,
             'quotationCount' => $quotationCount,
-            'orderCount' => $orderCount,
-            'creditTransactionCount' => $creditTransactionCount,
         ]);
     }
 
     public function edit(AdminRequest $request, Company $company): Response
     {
-        $subscriptionTypes = SubscriptionType::convertToDropdownList(true);
         $countryCodeTypes = CountryCodeType::convertToDropdownList(true);
 
         return Inertia::render('Admin/Company/Edit', [
-            'subscriptionTypes' => $subscriptionTypes,
             'countryCodeTypes' => $countryCodeTypes,
             'company' => $company,
         ]);

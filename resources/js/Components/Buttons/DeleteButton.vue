@@ -2,7 +2,6 @@
 
 import {useForm} from "@inertiajs/vue3";
 import LinkButton from "@/Components/Buttons/BaseButton.vue";
-import {translations} from "@/Mixins/translations";
 
 const props = defineProps({
     routeName: {

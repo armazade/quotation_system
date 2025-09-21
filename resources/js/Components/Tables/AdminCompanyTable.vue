@@ -7,7 +7,6 @@ import LinkButton from "@/Components/Buttons/BaseButton.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
 import Pagination from "@/Components/Miscellaneous/Pagination.vue";
 import RealButton from "@/Components/Buttons/RealButton.vue";
-import {CompanyType} from "@/Enums/CompanyType";
 
 const props = defineProps({
     type: {
@@ -80,7 +79,6 @@ const submit = () => {
                 <tr>
                     <th>{{ __('created_at') }}</th>
                     <th>{{ __('company_name') }}</th>
-                    <th v-if="type === CompanyType.CLIENT" class="text-right">{{ __('credits') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -90,9 +88,6 @@ const submit = () => {
                         <real-button :href="route('admin.company.show', { id:  company.id})">
                             {{ company.name }}
                         </real-button>
-                    </td>
-                    <td v-if="type === CompanyType.CLIENT" class="text-right">
-                        {{ company.credit_balance }}
                     </td>
                 </tr>
                 </tbody>

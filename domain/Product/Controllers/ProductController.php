@@ -50,7 +50,7 @@ class ProductController extends Controller
         $product = ProductService::update(new Product(), $validated);
 
         return redirect()
-            ->route('admin.product.show', $product)
+            ->route('admin.dashboard', $product)
             ->with(
                 FlashMessageService::type(),
                 FlashMessageService::sendSuccess(FlashMessageType::PRODUCT_CREATED)
@@ -64,7 +64,7 @@ class ProductController extends Controller
         $product = ProductService::update($product, $validated);
 
         return redirect()
-            ->route('admin.product.show', $product)
+            ->route('admin.dashboard', $product)
             ->with(
                 FlashMessageService::type(),
                 FlashMessageService::sendSuccess(FlashMessageType::PRODUCT_UPDATED)
