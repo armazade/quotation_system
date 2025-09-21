@@ -28,13 +28,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property Carbon|null $updated_at
  * @property string $name
  * @property bool $is_active
- * @property int $min_order_quantity
  * @property string $supplier_id
- * @property bool $notify_supplier
  * @property float $unit_price
  * @property string|null $description
  * @property string|null $article_number
- * @property string|null $info_link
  * @property-read Collection<int, ProductDeliveryOption> $deliveryOptions
  * @property-read int|null $delivery_options_count
  * @property-read mixed $delivery_time
@@ -79,7 +76,6 @@ class Product extends Model implements HasMedia
 
     protected $casts = [
         'is_active' => 'boolean',
-        'notify_supplier' => 'boolean',
         'unit_price' => 'float',
     ];
 

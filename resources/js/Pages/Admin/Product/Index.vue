@@ -32,7 +32,7 @@ defineProps({
                 <thead>
                 <tr>
                     <th>{{ __('is_active') }}</th>
-                    <th>{{ __('name') }}</th>
+                    <th>{{ __('article_number') }}</th>
                     <th>{{ __('supplier') }}</th>
                 </tr>
                 </thead>
@@ -43,7 +43,7 @@ defineProps({
                     </td>
                     <td>
                         <real-button :href="route('admin.product.show', { id:  product.id})">
-                            {{ product.name }}
+                            {{ product.article_number }}
                         </real-button>
                     </td>
                     <td>

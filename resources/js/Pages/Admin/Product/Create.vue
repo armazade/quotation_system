@@ -33,7 +33,6 @@ export default {
             unit_price: null,
             is_active: false,
             supplier_id: null,
-            notify_supplier: false,
             file: null,
         })
 
@@ -99,13 +98,6 @@ export default {
                     :label="__('supplier')"
                     :options="suppliers"
                     :required="true"
-                />
-
-                <FormCheckboxInput
-                    id="notify_supplier"
-                    v-model:checked="form.notify_supplier"
-                    :error-message="form.errors.notify_supplier"
-                    :label="__('notify_supplier')"
                 />
 
                 <hr class="base-hr">

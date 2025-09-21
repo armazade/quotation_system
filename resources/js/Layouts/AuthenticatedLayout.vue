@@ -40,6 +40,18 @@ const user = computed(() => usePage().props.auth?.user);
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('admin.product.index')"
+                                    :active="route().current('admin.product.index')"
+                                >
+                                    Products
+                                </NavLink>
+                                <NavLink
+                                    :href="route('admin.client.index')"
+                                    :active="route().current('admin.client.index')"
+                                >
+                                    Companies
+                                </NavLink>
                             </div>
                         </div>
 

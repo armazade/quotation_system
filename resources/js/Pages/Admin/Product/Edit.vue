@@ -32,7 +32,6 @@ export default {
             unit_price: props.product.unit_price,
             is_active: props.product.is_active,
             supplier_id: props.product.supplier_id,
-            notify_supplier: props.product.notify_supplier,
             file: null,
             _method: 'PATCH',
         })
@@ -59,20 +58,20 @@ export default {
         <div class="admin_form_container">
             <form @submit.prevent="submit()">
                 <FormTextInput
-                    id="name"
-                    v-model="form.name"
-                    :error-message="form.errors.name"
-                    :label="__('name')"
+                    id="article_number"
+                    v-model="form.article_number"
+                    :error-message="form.errors.article_number"
+                    :label="__('article_number')"
                     :required="true"
                 />
 
                 <hr class="base-hr">
 
                 <FormTextInput
-                    id="article_number"
-                    v-model="form.article_number"
-                    :error-message="form.errors.article_number"
-                    :label="__('article_number')"
+                    id="name"
+                    v-model="form.name"
+                    :error-message="form.errors.name"
+                    :label="__('name')"
                     :required="true"
                 />
 
@@ -103,12 +102,6 @@ export default {
                     :required="true"
                 />
 
-                <FormCheckboxInput
-                    id="notify_supplier"
-                    v-model:checked="form.notify_supplier"
-                    :error-message="form.errors.notify_supplier"
-                    :label="__('notify_supplier')"
-                />
                 <div>
                     <input id="file" type="file" @change="e => form.file = e.target.files[0]"/>
                 </div>
