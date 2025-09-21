@@ -1,7 +1,6 @@
 <script setup>
 
 import moment from "moment/moment";
-import {formatting} from "@/Mixins/formatting";
 import {useForm} from "@inertiajs/vue3";
 import FormSelectInput from "@/Components/Form/FormSelectInput.vue";
 import FormTextInput from "@/Components/Form/FormTextInput.vue";
