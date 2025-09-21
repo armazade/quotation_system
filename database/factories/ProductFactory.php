@@ -20,9 +20,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->words(3, true),
             'is_active' => $this->faker->boolean(),
-            'min_order_quantity' => $this->faker->numberBetween(1, 100),
             'supplier_id' => Company::isSchut()->first()->id,
-            'notify_supplier' => $this->faker->boolean(),
             'unit_price' => $this->faker->randomFloat(2, 10, 1000),
         ];
     }

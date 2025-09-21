@@ -144,8 +144,6 @@ class Company extends Model
         );
     }
 
-
-
     public function notifyUsers(Notification $notification): void
     {
         foreach ($this->users as $user) {
