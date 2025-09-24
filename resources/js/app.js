@@ -6,6 +6,9 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import i18n from './plugins/i18n';
+import {formatting} from "@/Mixins/formatting";
+import {translations} from "@/Mixins/translations";
+import {permissions} from "@/Mixins/permissions";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -21,7 +24,11 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(i18n)
-            .mount(el);
+            .mount(el)
+            .mixin(formatting)
+            .mixin(translations)
+            .mixin(permissions)
+
     },
     progress: {
         color: '#4B5563',
