@@ -38,19 +38,19 @@ const user = computed(() => usePage().props.auth?.user);
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Dashboard
+                                    {{ __('dashboard') }}
                                 </NavLink>
                                 <NavLink
                                     :href="route('admin.product.index')"
                                     :active="route().current('admin.product.index')"
                                 >
-                                    Products
+                                    {{ __('products') }}
                                 </NavLink>
                                 <NavLink
                                     :href="route('admin.client.index')"
                                     :active="route().current('admin.client.index')"
                                 >
-                                    Companies
+                                    {{ __('companies') }}
                                 </NavLink>
                             </div>
                         </div>

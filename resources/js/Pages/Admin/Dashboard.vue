@@ -1,11 +1,10 @@
 <script setup>
 import AdminLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3'
-import Dashboard from "@/Pages/Admin/Dashboard.vue";
 </script>
 
 <template>
-    <Head :title="Dashboard" />
+    <Head :title="__('dashboard')"/>
 
     <AdminLayout>
         <template #header>
