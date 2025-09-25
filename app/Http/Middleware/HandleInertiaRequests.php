@@ -38,28 +38,11 @@ class HandleInertiaRequests extends Middleware
         $user = $request->user();
         $company = $user?->company;
 
-        $locale = app()->getLocale();
-        $translations = cache()->rememberForever("translations.{$locale}", function () use ($locale) {
-            return array_merge(
-                json_decode(file_get_contents(lang_path("{$locale}.json")), true) ?? [],
-                trans('*', [], $locale)
-            );
-        });
-
         return array_merge(parent::share($request), [
-            '_translations' => $translations,
             'auth' => [
-                'user' => $user ? [
-                    'id' => $user->id,
-                    'first_name' => $user->first_name,
-                    'last_name' => $user->last_name,
-                    'email' => $user->email,
-                    'email_verified_at' => $user->email_verified_at,
-                    'permissions' => $user->getPermissionsViaRoles()->pluck('name'),
-                    'full_name' => $user->first_name . ' ' . $user->last_name,
-                ] : null,
+                'user' => $user,
                 'company' => $company,
-                'permissions' => $user?->getLoadedPermissions()->toArray() ?? [],
+                'permissions' => $request->user()?->getLoadedPermissions()->toArray() ?? [],
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
@@ -67,10 +50,10 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'flash' => [
-                'message' => fn () => $request->session()->get('message'),
-                'warning_list' => fn () => $request->session()->get('warning_list'),
+                'message' => fn() => $request->session()->get('message')
             ],
             'locale' => App::getLocale(),
         ]);
     }
 }
+
