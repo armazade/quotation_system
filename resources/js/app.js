@@ -24,11 +24,10 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(i18n)
-            .mount(el)
             .mixin(formatting)
             .mixin(translations)
             .mixin(permissions)
-
+            .mount(el)
     },
     progress: {
         color: '#4B5563',
