@@ -18,17 +18,12 @@ const fullName = computed(() => {
 
 const activeMenu = {
     dashboard: (route().current('admin.dashboard') || route().current('dashboard')),
-    adminOrders: (route().current('admin.order.index') || route().current('admin.order.show') || route().current('admin.order.edit') || route().current('admin.order_line.create') || route().current('admin.order_export.show') || route().current('admin.shipment.create') || route().current('admin.order_line_product_review.create')),
     adminQuotations: (route().current('admin.quotation.index') || route().current('admin.quotation.show') || route().current('quotation.create') || route().current('admin.quotation_line.create')),
-    adminTransfers: (route().current('admin.transfer.index') || route().current('admin.transfer.show') || route().current('admin.transfer.edit') || route().current('admin.transfer_size.create') || route().current('admin.transfer_size.show')),
     adminProducts: (route().current('admin.product.index') || route().current('admin.product.show') || route().current('admin.product.edit') || route().current('admin.product.create')),
     adminUsers: (route().current('admin.user.index') || route().current('admin.user.show')),
-    adminCredits: (route().current('admin.credit_transaction.index') || route().current('admin.credit_transaction.show') || route().current('admin.credit_transaction.create')),
     adminSuppliers: (route().current('admin.supplier.index') || route().current('admin.supplier.create')),
     adminClients: (route().current('admin.client.index')),
-    adminAnalytics: route().current('admin.analytics.index'),
 
-    clientOrders: (route().current('client.order.index') || route().current('client.order.show') || route().current('client.order_line_product.edit')),
     clientQuotations: (route().current('client.quotation.index') || route().current('client.quotation.show') || route().current('quotation.create')),
 }
 
