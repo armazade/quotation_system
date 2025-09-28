@@ -1,5 +1,4 @@
 <script setup>
-import {ref, computed} from 'vue';
 import Dropdown from "@/Components/Miscellaneous/Dropdown.vue";
 import ApplicationLogo from "@/Components/Miscellaneous/ApplicationLogo.vue";
 import NavLink from "@/Components/Miscellaneous/NavLink.vue";
@@ -7,14 +6,6 @@ import ResponsiveNavLink from "@/Components/Miscellaneous/ResponsiveNavLink.vue"
 import {Link, usePage} from "@inertiajs/vue3";
 import DropdownLink from "@/Components/Miscellaneous/DropdownLink.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
-
-const showingNavigationDropdown = ref(false);
-const page = usePage();
-const user = computed(() => page.props.auth?.user);
-const fullName = computed(() => {
-    if (!user.value) return '';
-    return `${user.value.first_name} ${user.value.last_name}`;
-});
 
 const activeMenu = {
     dashboard: (route().current('admin.dashboard') || route().current('dashboard')),
@@ -47,7 +38,6 @@ const activeMenu = {
                     <!-- Navigation Links -->
                     <div class="hidden space-x-6 sm:-my-px sm:ml-10 lg:flex">
                         <NavLink
-                            v-if="!hasPermission($page.props.auth.permissions, 'admin_order_list')"
                             :active="activeMenu.dashboard"
                             :href="route('dashboard')"
                         >
@@ -55,14 +45,13 @@ const activeMenu = {
                         </NavLink>
 
                         <NavLink
-                            v-if="hasPermission($page.props.auth.permissions, 'admin_quotation_list')"
                             :active="activeMenu.adminQuotations"
                             :href="route('admin.quotation.index')"
                         >
                             {{ __('quotations') }}
                         </NavLink>
 
-                        <div v-if="hasPermission($page.props.auth.permissions, 'admin_company_list')" class="my-auto">
+                        <div class="my-auto">
                             <Dropdown align="right">
                                 <template #trigger>
                                 <span class="inline-flex rounded-md">
@@ -90,7 +79,6 @@ const activeMenu = {
                                 <template #content>
 
                                     <DropdownLink
-                                        v-if="hasPermission($page.props.auth.permissions, 'admin_user_list')"
                                         :active="activeMenu.adminUsers"
                                         :href="route('admin.user.index')"
                                     >
@@ -100,7 +88,7 @@ const activeMenu = {
                             </Dropdown>
                         </div>
 
-                        <div v-if="hasPermission($page.props.auth.permissions, 'admin_product_list')" class="my-auto">
+                        <div class="my-auto">
                             <Dropdown align="right">
                                 <template #trigger>
                                 <span class="inline-flex rounded-md">
@@ -127,7 +115,6 @@ const activeMenu = {
 
                                 <template #content>
                                     <DropdownLink
-                                        v-if="hasPermission($page.props.auth.permissions, 'admin_product_list')"
                                         :active="activeMenu.adminProducts"
                                         :href="route('admin.product.index')"
                                     >
@@ -138,7 +125,6 @@ const activeMenu = {
                         </div>
 
                         <NavLink
-                            v-if="hasPermission($page.props.auth.permissions, 'client_quotation_list')"
                             :active="activeMenu.clientQuotations"
                             :href="route('client.quotation.index')"
                         >
@@ -178,7 +164,6 @@ const activeMenu = {
 
                             <template #content>
                                 <DropdownLink
-                                    v-if="hasPermission($page.props.auth.permissions, 'client_company_read')"
                                     :active="route().current('client.company.show')"
                                     :href="route('client.company.show')"
                                 >
@@ -250,7 +235,6 @@ const activeMenu = {
         >
             <div class="pt-2 pb-3 space-y-1">
                 <ResponsiveNavLink
-                    v-if="!hasPermission($page.props.auth.permissions, 'admin_order_list')"
                     :active="activeMenu.dashboard"
                     :href="route('dashboard')"
                 >
@@ -258,7 +242,6 @@ const activeMenu = {
                 </ResponsiveNavLink>
 
                 <ResponsiveNavLink
-                    v-if="hasPermission($page.props.auth.permissions, 'admin_quotation_list')"
                     :active="activeMenu.adminQuotations"
                     :href="route('admin.quotation.index')"
                 >
@@ -266,7 +249,6 @@ const activeMenu = {
                 </ResponsiveNavLink>
 
                 <ResponsiveNavLink
-                    v-if="hasPermission($page.props.auth.permissions, 'admin_company_list')"
                     :active="activeMenu.adminClients"
                     :href="route('admin.client.index')"
                 >
@@ -274,7 +256,6 @@ const activeMenu = {
                 </ResponsiveNavLink>
 
                 <ResponsiveNavLink
-                    v-if="hasPermission($page.props.auth.permissions, 'admin_company_list')"
                     :active="activeMenu.adminSuppliers"
                     :href="route('admin.supplier.index')"
                 >
@@ -282,7 +263,6 @@ const activeMenu = {
                 </ResponsiveNavLink>
 
                 <ResponsiveNavLink
-                    v-if="hasPermission($page.props.auth.permissions, 'admin_user_list')"
                     :active="activeMenu.adminUsers"
                     :href="route('admin.user.index')"
                 >
@@ -290,7 +270,6 @@ const activeMenu = {
                 </ResponsiveNavLink>
 
                 <ResponsiveNavLink
-                    v-if="hasPermission($page.props.auth.permissions, 'admin_product_list')"
                     :active="activeMenu.adminTransfers"
                     :href="route('admin.transfer.index')"
                 >
@@ -298,7 +277,6 @@ const activeMenu = {
                 </ResponsiveNavLink>
 
                 <ResponsiveNavLink
-                    v-if="hasPermission($page.props.auth.permissions, 'client_quotation_list')"
                     :active="activeMenu.clientQuotations"
                     :href="route('client.quotation.index')"
                 >
@@ -317,7 +295,6 @@ const activeMenu = {
 
                 <div class="mt-3 space-y-1">
                     <ResponsiveNavLink
-                        v-if="hasPermission($page.props.auth.permissions, 'client_company_read')"
                         :active="route().current('client.company.show')"
                         :href="route('client.company.show')"
                     >

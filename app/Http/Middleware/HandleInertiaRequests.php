@@ -23,9 +23,9 @@ class HandleInertiaRequests extends Middleware
      * @return string|null
      */
     public function version(Request $request): ?string
-    {
-        return parent::version($request);
-    }
+{
+    return parent::version($request);
+}
 
     /**
      * Define the props that are shared by default.
@@ -34,26 +34,24 @@ class HandleInertiaRequests extends Middleware
      * @return array
      */
     public function share(Request $request): array
-    {
-        $user = $request->user();
-        $company = $user?->company;
+{
+    $user = $request->user();
 
-        return array_merge(parent::share($request), [
-            'auth' => [
-                'user' => $user,
-                'company' => $company,
-                'permissions' => $request->user()?->getLoadedPermissions()->toArray() ?? [],
-            ],
-            'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy)->toArray(), [
-                    'location' => $request->url(),
-                ]);
-            },
-            'flash' => [
-                'message' => fn() => $request->session()->get('message')
-            ],
-            'locale' => App::getLocale(),
-        ]);
-    }
+    return array_merge(parent::share($request), [
+        'auth' => [
+            'user' => $user,
+            'company' => $user?->company,
+            'permissions' => $user?->getLoadedPermissions()->toArray() ?? [],
+        ],
+        'ziggy' => function () use ($request) {
+            return array_merge((new Ziggy)->toArray(), [
+                'location' => $request->url(),
+            ]);
+        },
+        'flash' => [
+            'message' => fn() => $request->session()->get('message')
+        ],
+        'locale' => App::getLocale(),
+    ]);
 }
-
+}
