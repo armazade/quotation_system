@@ -21,16 +21,16 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
-        const app = createApp({ render: () => h(App, props) })
+        return createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(ZiggyVue, Ziggy)
+            .use(ZiggyVue)
             .use(i18n)
             .mixin(formatting)
             .mixin(translations)
             .mixin(permissions)
             .mixin(urlParameters)
+            .mount(el)
 
-        app.mount(el)
     },
     progress: {
         color: '#4B5563',
