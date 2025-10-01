@@ -3,10 +3,8 @@
 namespace Domain\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Notifications\ClientQuotationReceivedNotification;
 use Domain\Admin\Requests\QuotationAdminIndexRequest;
 use Domain\Admin\Requests\QuotationDestroyRequest;
-use Domain\Admin\Requests\QuotationSendRequest;
 use Domain\Helper\Enums\FlashMessageType;
 use Domain\Helper\Enums\FlashType;
 use Domain\Helper\Services\FlashMessageService;
@@ -67,15 +65,4 @@ class QuotationController extends Controller
             ]);
     }
 
-    public function send(QuotationSendRequest $request, Quotation $quotation): RedirectResponse
-    {
-        QuotationService::send($quotation, new ClientQuotationReceivedNotification($quotation));
-
-        return redirect()
-            ->route('admin.quotation.show', $quotation)
-            ->with('message', [
-                'type' => FlashType::SUCCESS,
-                'value' => FlashMessageType::QUOTATION_UPDATED,
-            ]);
-    }
 }
