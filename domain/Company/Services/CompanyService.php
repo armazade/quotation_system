@@ -4,7 +4,6 @@ namespace Domain\Company\Services;
 
 use Domain\Company\Enums\CompanyType;
 use Domain\Company\Models\Company;
-use Domain\Order\Services\OrderService;
 use Domain\Quotation\Services\QuotationService;
 use Domain\User\Services\UserService;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -48,10 +47,6 @@ class CompanyService
     public static function destroy(Company $company): void
     {
         DB::transaction(function () use ($company) {
-            foreach ($company->orders as $order) {
-                OrderService::destroy($order);
-            }
-
             foreach ($company->quotations as $quotation) {
                 QuotationService::destroy($quotation);
             }
