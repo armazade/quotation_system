@@ -29,7 +29,11 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('/admin')->group(callba
     Route::delete('/locations/{companyLocation}', [CompanyLocationController::class, 'destroy'])->name('admin.location.destroy');
 
     Route::get('/quotations', [QuotationController::class, 'index'])->name('admin.quotation.index');
+    Route::get('/quotations/create', [QuotationController::class, 'create'])->name('admin.quotation.create');
+    Route::post('/quotations', [QuotationController::class, 'store'])->name('admin.quotation.store');
     Route::get('/quotations/{quotation}', [QuotationController::class, 'show'])->name('admin.quotation.show');
+    Route::get('/quotations/{quotation}/edit', [QuotationController::class, 'edit'])->name('admin.quotation.edit');
+    Route::patch('/quotations/{quotation}', [QuotationController::class, 'update'])->name('admin.quotation.update');
     Route::delete('/quotations/{quotation}', [QuotationController::class, 'destroy'])->name('admin.quotation.destroy');
 
     Route::post('/quotations/{quotation}/send', [QuotationController::class, 'send'])->name('admin.quotation.send');

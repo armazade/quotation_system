@@ -27,7 +27,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $deleted_at
  * @property string $company_id
  * @property string|null $user_id
- * @property string $reference
  * @property QuotationStatusType $status
  * @property Carbon|null $quotation_sent_at
  * @property-read Company $company
