@@ -31,25 +31,31 @@ defineProps({
             <table>
                 <thead>
                 <tr>
-                    <th>{{ __('is_active') }}</th>
                     <th>{{ __('article_number') }}</th>
+                    <th>{{ __('name')}}</th>
                     <th>{{ __('supplier') }}</th>
+                    <th>{{ __('is_active') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="product in products.data">
-                    <td>
-                        <ProductStatusIndicator :status="product.is_active" class="my-auto"/>
-                    </td>
                     <td>
                         <real-button :href="route('admin.product.show', { id:  product.id})">
                             {{ product.article_number }}
                         </real-button>
                     </td>
                     <td>
+                        <real-button :href="route('admin.product.show', { id:  product.id})">
+                            {{ product.name }}
+                        </real-button>
+                    </td>
+                    <td>
                         <real-button :href="route('admin.company.show', { id:  product.supplier.id})">
                             {{ product.supplier.name }}
                         </real-button>
+                    </td>
+                    <td>
+                        <ProductStatusIndicator :status="product.is_active" class="my-auto"/>
                     </td>
                 </tr>
                 </tbody>
