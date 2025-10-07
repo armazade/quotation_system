@@ -3,17 +3,18 @@
 namespace Domain\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Notifications\ClientQuotationReceivedNotification;
 use Domain\Admin\Requests\QuotationAdminIndexRequest;
 use Domain\Admin\Requests\QuotationDestroyRequest;
-use Domain\Admin\Requests\QuotationSendRequest;
+use Domain\Quotation\Models\Quotation;
+use Domain\Quotation\Services\QuotationService;
+use Domain\Quotation\Requests\QuotationShowRequest;
+use Domain\Quotation\Requests\QuotationStoreRequest;
+use Domain\Quotation\Requests\QuotationUpdateRequest;
+use Domain\Quotation\Enums\QuotationStatusType;
 use Domain\Helper\Enums\FlashMessageType;
 use Domain\Helper\Enums\FlashType;
 use Domain\Helper\Services\FlashMessageService;
-use Domain\Quotation\Enums\QuotationStatusType;
-use Domain\Quotation\Models\Quotation;
-use Domain\Quotation\Requests\QuotationShowRequest;
-use Domain\Quotation\Services\QuotationService;
+use Domain\Company\Models\Company;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -37,6 +38,29 @@ class QuotationController extends Controller
         ]);
     }
 
+    public function create(): Response
+    {
+        $companies = Company::orderBy('name')->get();
+
+        return Inertia::render('Admin/Quotation/Create', [
+            'companies' => $companies,
+        ]);
+    }
+
+    public function store(QuotationStoreRequest $request): RedirectResponse
+    {
+        $validated = (object)$request->validated();
+
+        $quotation = QuotationService::store($validated);
+
+        return redirect()
+            ->route('admin.quotation.show', $quotation)
+            ->with('message', [
+                'type' => FlashType::SUCCESS,
+                'value' => FlashMessageType::QUOTATION_CREATED,
+            ]);
+    }
+
     public function show(QuotationShowRequest $request, Quotation $quotation): Response
     {
         $quotation->load([
@@ -55,6 +79,31 @@ class QuotationController extends Controller
         return $render;
     }
 
+    public function edit(QuotationShowRequest $request, Quotation $quotation): Response
+    {
+        $companies = Company::orderBy('name')->get();
+
+        return Inertia::render('Admin/Quotation/Edit', [
+            'quotation' => $quotation,
+            'companies' => $companies,
+        ]);
+    }
+
+    public function update(QuotationUpdateRequest $request, Quotation $quotation): RedirectResponse
+    {
+        $validated = (object)$request->validated();
+
+        $quotation = QuotationService::update($quotation, $validated);
+        $quotation->save();
+
+        return redirect()
+            ->route('admin.quotation.show', $quotation)
+            ->with('message', [
+                'type' => FlashType::SUCCESS,
+                'value' => FlashMessageType::QUOTATION_UPDATED,
+            ]);
+    }
+
     public function destroy(QuotationDestroyRequest $request, Quotation $quotation): RedirectResponse
     {
         QuotationService::destroy($quotation);
@@ -67,15 +116,14 @@ class QuotationController extends Controller
             ]);
     }
 
-    public function send(QuotationSendRequest $request, Quotation $quotation): RedirectResponse
+    public function send(Quotation $quotation): RedirectResponse
     {
-        QuotationService::send($quotation, new ClientQuotationReceivedNotification($quotation));
 
         return redirect()
             ->route('admin.quotation.show', $quotation)
             ->with('message', [
                 'type' => FlashType::SUCCESS,
-                'value' => FlashMessageType::QUOTATION_UPDATED,
+                'value' => FlashMessageType::QUOTATION_CREATED,
             ]);
     }
 }

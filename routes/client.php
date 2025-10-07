@@ -1,9 +1,9 @@
 <?php
 
+use Domain\Admin\Controllers\QuotationController;
 use Domain\Company\Controllers\CompanyController;
 use Domain\Company\Controllers\CompanyLocationController;
 use Domain\Company\Controllers\UserController;
-use Domain\Quotation\Controllers\QuotationController;
 use Domain\User\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 

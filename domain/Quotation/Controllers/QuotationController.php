@@ -4,23 +4,18 @@ namespace Domain\Quotation\Controllers;
 
 use App\Http\Controllers\Controller;
 use Domain\Admin\Requests\QuotationDestroyRequest;
+use Domain\Company\Models\Company;
 use Domain\Helper\Enums\FlashMessageType;
 use Domain\Helper\Enums\FlashType;
-use Domain\Helper\Enums\MimeExtensionType;
 use Domain\Helper\Services\FlashMessageService;
-use Domain\Order\Enums\CostType;
-use Domain\Order\Enums\PaymentMethodType;
-use Domain\Product\Enums\PmsColorCountType;
-use Domain\Product\Enums\TransferType;
+use Domain\Product\Enums\DeliveryType;
 use Domain\Product\Models\Product;
-use Domain\Product\Models\Transfer;
 use Domain\Quotation\Dtos\QuotationStoreDto;
 use Domain\Quotation\Enums\FileUploadType;
 use Domain\Quotation\Models\Quotation;
 use Domain\Quotation\Requests\QuotationIndexRequest;
 use Domain\Quotation\Requests\QuotationShowRequest;
 use Domain\Quotation\Requests\QuotationStoreRequest;
-use Domain\Quotation\Services\PricingService;
 use Domain\Quotation\Services\QuotationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -114,80 +109,56 @@ class QuotationController extends Controller
             ]);
     }
 
-//    public function create(QuotationCreateRequest $request): Response
-//    {
-//        $data = QuotationCreateDto::fromRequest($request);
-//        $page = $data->page;
-//
-//        if ($page->value > QuotationPageType::TRANSFER_TYPE->value) {
-//            $transferOptions = Transfer::query()
-//                ->where('is_active', true)
-//                ->whereHas('sizes')
-//                ->whereHas('transfer', function ($query) use ($data) {
-//                    $query->where('transfer_type', $data->transfer_type);
-//                })
-//                ->pluck('name', 'id');
-//        }
-//
-//        $transfers = Transfer::query()
-//            ->select(['id as identifier', 'description', 'info_link'])
-//            ->where('is_active', true)
-//            ->whereHas('sizes')
-//            ->whereHas('transfer', function ($query) use ($data) {
-//                $query->where('transfer_type', $data->transfer_type);
-//            })->get();
-//
-//        if ($page->value > QuotationPageType::TRANSFER_ID->value) {
-//            $sizeOptions = $data->transfer->setSizes()->pluck('size_type', 'id');
-//        }
-//
-//        if ($page->value > QuotationPageType::TRANSFER_ID->value) {
-//            $possibleBlocker = $data->transfer->transfer->has_blocker;
-//            $possibleExpressDelivery = (bool)$data->transfer->delivery_time_express;
-//        }
-//
-//        if ($page === QuotationPageType::PRICING) {
-//            $pricing = PricingService::calculatePricing($data);
-//
-//            if (!$data->has_custom_size) {
-//                $alternative = PricingService::alternativePricing($data, $pricing);
-//            }
-//        }
-//
-//        if (Auth::user()?->isAdmin()) {
-//            if (!$data->company) {
-//                $flash = [
-//                    'message' => ['type' => FlashType::ERROR,
-//                        'value' => FlashMessageType::ERROR_NO_COMPANY_SELECTED,
-//                    ],
-//                ];
-//            } else {
-//                $flash = [
-//                    'message' => ['type' => FlashType::SUCCESS,
-//                        'value' => trans('quotation_for', ['company_name' => $data->company->name]),
-//                    ],
-//                ];
-//            }
-//        }
-//
-//        return Inertia::render('Quotation/Create', [
-//            'page' => $page,
-//            'transferTypes' => TransferType::convertToDropdownList(),
-//            'possibleBlocker' => $possibleBlocker,
-//            'possibleExpressDelivery' => $possibleExpressDelivery,
-//            'transfers' => $transfers ?? null,
-//            'transferOptions' => $transferOptions ?? null,
-//            'product' => $data->transfer ?? null,
-//            'sizeTypes' => $sizeOptions ?? null,
-//            'customSizeId' => isset($data->transfer) ? $data?->transfer?->customSizes?->first()?->id ?? null : null,
-//            'deliveryOptions' => DeliveryType::convertToDropdownList(),
-//            'processingTermOptions' => ProcessingTermType::convertToDropdownList(),
-//            'booleanTypes' => BooleanType::convertToDropdownList(),
-//            'pmsColorCountTypes' => PmsColorCountType::convertToDropdownList(),
-//            'pricing' => $pricing ?? null,
-//            'alternativePricingOptions' => $alternative ?? null,
-//            'company' => $data->company ?? null,
-//            'priceTechnicalDrawing' => CostType::TECHNICAL_DRAWING->value,
-//        ])->with('flash', $flash ?? []);
-//    }
-}
+    public function create(QuotationCreateRequest $request): Response
+    {
+        $validated = $request->validated();
+
+        // Get the product if product_id is provided
+        $product = null;
+        if (isset($validated['product_id'])) {
+            $product = Product::with(['deliveryOptions', 'profileImages', 'supplier'])
+                ->where('is_active', true)
+                ->find($validated['product_id']);
+        }
+
+        // Get company for admin users
+        $company = null;
+        if (Auth::user()->isAdmin() && isset($validated['company_id'])) {
+            $company = Company::find($validated['company_id']);
+        } else {
+            $company = Auth::user()->company;
+        }
+
+        // Get all active products for selection
+        $products = Product::query()
+            ->where('is_active', true)
+            ->with(['deliveryOptions', 'profileImages', 'supplier'])
+            ->get();
+
+        // Set flash messages for admin users
+        $flash = [];
+        if (Auth::user()?->isAdmin()) {
+            if (!$company) {
+                $flash = [
+                    'message' => [
+                        'type' => FlashType::ERROR,
+                        'value' => FlashMessageType::ERROR_NO_COMPANY_SELECTED,
+                    ],
+                ];
+            } else {
+                $flash = [
+                    'message' => [
+                        'type' => FlashType::SUCCESS,
+                        'value' => trans('quotation_for', ['company_name' => $company->name]),
+                    ],
+                ];
+            }
+        }
+
+        return Inertia::render('Quotation/Create', [
+            'product' => $product,
+            'products' => $products,
+            'company' => $company,
+            'deliveryOptions' => DeliveryType::convertToDropdownList(),
+        ])->with('flash', $flash);
+    }}

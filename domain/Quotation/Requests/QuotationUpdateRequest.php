@@ -4,7 +4,7 @@ namespace Domain\Quotation\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QuotationStoreRequest extends FormRequest
+class QuotationUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
