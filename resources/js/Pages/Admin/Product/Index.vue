@@ -5,6 +5,7 @@ import Pagination from '@/Components/Miscellaneous/Pagination.vue';
 import LinkButton from "@/Components/Buttons/BaseButton.vue";
 import RealButton from "@/Components/Buttons/RealButton.vue";
 import ProductStatusIndicator from "@/Components/StatusIndicators/ProductStatusIndicator.vue";
+import {formatting} from "@/Mixins/formatting";
 
 const props = defineProps({
     products: Object,
@@ -43,8 +44,10 @@ const productRoute = (product) => {
                 <tr>
                     <th>{{ __('article_number') }}</th>
                     <th>{{ __('name')}}</th>
+                    <th>{{ __('brand') }}</th>
+                    <th>{{ __('unit_price') }}</th>
                     <th>{{ __('supplier') }}</th>
-                    <th>{{ __('is_active') }}</th>
+                    <th v-if="canCreate">{{ __('is_active') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -59,6 +62,8 @@ const productRoute = (product) => {
                             {{ product.name }}
                         </real-button>
                     </td>
+                    <td>{{ product.brand }}</td>
+                    <td>{{ formatting.methods.formatEuro(product.unit_price) }}</td>
                     <td>
                         <template v-if="canCreate">
                             <real-button :href="route('admin.company.show', { company:  product.supplier.id})">
@@ -69,7 +74,7 @@ const productRoute = (product) => {
                             {{ product.supplier.name }}
                         </template>
                     </td>
-                    <td>
+                    <td v-if="canCreate">
                         <ProductStatusIndicator :status="product.is_active" class="my-auto"/>
                     </td>
                 </tr>

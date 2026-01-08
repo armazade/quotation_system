@@ -33,6 +33,7 @@ export default {
             is_active: props.product.is_active,
             supplier_id: props.product.supplier_id,
             article_number: props.product.article_number,
+            brand: props.product.brand,
             file: null,
             _method: 'PATCH',
         })
@@ -64,6 +65,13 @@ export default {
                     :error-message="form.errors.article_number"
                     :label="__('article_number')"
                     :required="true"
+                />
+
+                <FormTextInput
+                    id="brand"
+                    v-model="form.brand"
+                    :error-message="form.errors.brand"
+                    :label="__('brand')"
                 />
 
                 <hr class="base-hr">

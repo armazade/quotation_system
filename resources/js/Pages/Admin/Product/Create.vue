@@ -29,6 +29,7 @@ export default {
         const form = useForm({
             name: null,
             article_number: null,
+            brand: null,
             description: null,
             unit_price: null,
             is_active: false,
@@ -69,6 +70,13 @@ export default {
                     :error-message="form.errors.article_number"
                     :label="__('article_number')"
                     :required="true"
+                />
+
+                <FormTextInput
+                    id="brand"
+                    v-model="form.brand"
+                    :error-message="form.errors.brand"
+                    :label="__('brand')"
                 />
 
                 <hr class="base-hr">

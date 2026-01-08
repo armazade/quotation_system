@@ -23,6 +23,9 @@ const props = defineProps({
                     >
                         {{ product.name }}
                     </h5>
+                    <p v-if="product.brand" class="text-sm text-gray-500 mt-1">
+                        {{ product.brand }}
+                    </p>
                 </div>
                 <div class="mt-2 mb-5 flex items-center justify-between">
                     <p>

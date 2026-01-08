@@ -30,6 +30,7 @@ class ProductStoreRequest extends FormRequest
         $rules['name'] = ['required', 'string', 'max:255'];
 
         $rules['article_number'] = ['required', 'string', 'max:255'];
+        $rules['brand'] = ['nullable', 'string', 'max:255'];
 
         $rules['unit_price'] = ['required', 'numeric', 'min:0'];
         $rules['is_active'] = ['required', new BooleanRule()];

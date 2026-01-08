@@ -32,6 +32,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property float $unit_price
  * @property string|null $description
  * @property string|null $article_number
+ * @property string|null $brand
  * @property-read Collection<int, ProductDeliveryOption> $deliveryOptions
  * @property-read int|null $delivery_options_count
  * @property-read mixed $delivery_time

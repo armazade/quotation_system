@@ -11,6 +11,7 @@ class ProductService
     {
         $product->name = $data->name;
         $product->article_number = $data->article_number;
+        $product->brand = $data->brand ?? null;
         $product->description = $data->description ?? null;
         $product->is_active = $data->is_active;
 

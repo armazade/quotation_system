@@ -9,6 +9,7 @@
     "article_number": "Article number",
     "bic_number": "Bic number",
     "billing_address": "Billing address",
+    "brand": "Brand",
     "boolean_type.no": "No",
     "boolean_type.yes": "Yes",
     "boolean_value.0": "No",
