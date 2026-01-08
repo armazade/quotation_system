@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $seeders = [];
         $seeders[] = RolePermissionSeeder::class;
         $seeders[] = SchutCompanyDataSeeder::class;
+        $seeders[] = ProductSeeder::class;
         $seeders[] = DummyDataSeeder::class;
         $seeders[] = ClientSeeder::class;
 
