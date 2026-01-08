@@ -25,10 +25,10 @@ defineProps({
             <h2 class="admin_page_header">{{ product.name }}</h2>
         </template>
 
-        <div class="admin_page_status_container">
+        <div v-if="canEdit" class="admin_page_status_container">
             <ProductStatusIndicator :status="product.is_active" class="my-auto"/>
 
-            <div v-if="canEdit" class="button_container">
+            <div class="button_container">
                 <DeleteButton
                     :item="product"
                     route-name="admin.product.destroy"
