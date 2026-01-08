@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -35,25 +36,49 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $user = $request->user();
-        $company = $user?->company;
-
         return array_merge(parent::share($request), [
-            'auth' => [
-                'user' => $user,
-                'company' => $company,
-                'permissions' => $request->user()?->getLoadedPermissions()->toArray() ?? [],
-            ],
+            'auth' => fn () => $this->getAuthData(),
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
                 ]);
             },
             'flash' => [
-                'message' => fn() => $request->session()->get('message')
+                'message' => fn () => $request->session()->get('message')
             ],
             'locale' => App::getLocale(),
         ]);
     }
-}
 
+    /**
+     * Get authentication data including permissions.
+     */
+    protected function getAuthData(): array
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return [
+                'user' => null,
+                'company' => null,
+                'permissions' => [],
+            ];
+        }
+
+        // Load roles with permissions
+        $user->load(['roles.permissions', 'company']);
+
+        // Collect all permissions from all roles
+        $permissions = $user->roles
+            ->flatMap(fn ($role) => $role->permissions->pluck('name'))
+            ->unique()
+            ->values()
+            ->toArray();
+
+        return [
+            'user' => $user,
+            'company' => $user->company,
+            'permissions' => $permissions,
+        ];
+    }
+}

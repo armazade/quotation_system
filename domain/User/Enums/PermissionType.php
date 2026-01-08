@@ -29,4 +29,7 @@ enum PermissionType: string
     case CLIENT_USER_READ = 'client_user_read';
 
     case CLIENT_QUOTATION_CREATE = 'client_quotation_create';
+
+    case CLIENT_PRODUCT_LIST = 'client_product_list';
+    case CLIENT_PRODUCT_READ = 'client_product_read';
 }

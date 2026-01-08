@@ -10,9 +10,22 @@ import ResponsiveNavLink from "@/Components/Miscellaneous/ResponsiveNavLink.vue"
 import DropdownLink from "@/Components/Miscellaneous/DropdownLink.vue";
 
 const showingNavigationDropdown = ref(false);
+const page = usePage();
 
 // Safely access user data
-const user = computed(() => usePage().props.auth?.user);
+const user = computed(() => page.props.auth?.user);
+
+const isAdmin = computed(() => {
+    return page.props.auth?.permissions?.includes('admin_company_list') ?? false;
+});
+
+const productIndexRoute = computed(() => {
+    return isAdmin.value ? route('admin.product.index') : route('client.product.index');
+});
+
+const isProductRoute = computed(() => {
+    return route().current('admin.product.*') || route().current('client.product.*');
+});
 </script>
 
 <template>
@@ -42,14 +55,15 @@ const user = computed(() => usePage().props.auth?.user);
                                     {{ __('dashboard') }}
                                 </NavLink>
                                 <NavLink
-                                    :href="route('admin.product.index')"
-                                    :active="route().current('admin.product.index')"
+                                    :href="productIndexRoute"
+                                    :active="isProductRoute"
                                 >
                                     {{ __('products') }}
                                 </NavLink>
                                 <NavLink
+                                    v-if="isAdmin"
                                     :href="route('admin.client.index')"
-                                    :active="route().current('admin.client.index')"
+                                    :active="route().current('admin.client.*') || route().current('admin.company.*')"
                                 >
                                     {{ __('companies') }}
                                 </NavLink>
@@ -146,7 +160,20 @@ const user = computed(() => usePage().props.auth?.user);
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
-                            Dashboard
+                            {{ __('dashboard') }}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="productIndexRoute"
+                            :active="isProductRoute"
+                        >
+                            {{ __('products') }}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            v-if="isAdmin"
+                            :href="route('admin.client.index')"
+                            :active="route().current('admin.client.*') || route().current('admin.company.*')"
+                        >
+                            {{ __('companies') }}
                         </ResponsiveNavLink>
                     </div>
 

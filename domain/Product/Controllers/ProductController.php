@@ -10,17 +10,19 @@ use Domain\Helper\Enums\FlashMessageType;
 use Domain\Helper\Enums\FlashType;
 use Domain\Helper\Services\FlashMessageService;
 use Domain\Product\Models\Product;
+use Domain\Product\Requests\ProductIndexRequest;
+use Domain\Product\Requests\ProductShowRequest;
 use Domain\Product\Requests\ProductStoreRequest;
 use Domain\Product\Requests\ProductUpdateRequest;
 use Domain\Product\Services\ProductService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProductController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(ProductIndexRequest $request): Response
     {
         $products = Product::query()
             ->with('supplier')
@@ -28,6 +30,7 @@ class ProductController extends Controller
 
         return Inertia::render('Admin/Product/Index', [
             'products' => $products,
+            'canCreate' => Auth::user()->isAdmin(),
         ]);
     }
 
@@ -45,9 +48,9 @@ class ProductController extends Controller
 
     public function store(ProductStoreRequest $request): RedirectResponse
     {
-        $validated = (object)$request->validated();
+        $validated = (object) $request->validated();
 
-        $product = ProductService::update(new Product(), $validated);
+        $product = ProductService::update(new Product, $validated);
 
         return redirect()
             ->route('admin.dashboard', $product)
@@ -59,7 +62,7 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, Product $product): RedirectResponse
     {
-        $validated = (object)$request->validated();
+        $validated = (object) $request->validated();
 
         $product = ProductService::update($product, $validated);
 
@@ -71,10 +74,11 @@ class ProductController extends Controller
             );
     }
 
-    public function show(Request $request, Product $product): Response
+    public function show(ProductShowRequest $request, Product $product): Response
     {
         return Inertia::render('Admin/Product/Show', [
             'product' => $product,
+            'canEdit' => Auth::user()->isAdmin(),
         ]);
     }
 

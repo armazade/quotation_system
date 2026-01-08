@@ -4,6 +4,7 @@ use Domain\Admin\Controllers\QuotationController;
 use Domain\Company\Controllers\CompanyController;
 use Domain\Company\Controllers\CompanyLocationController;
 use Domain\Company\Controllers\UserController;
+use Domain\Product\Controllers\ProductController;
 use Domain\User\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,9 @@ Route::get('/quotation', [QuotationController::class, 'create'])->name('quotatio
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, '__invoke'])->name('dashboard');
+
+    Route::get('/products', [ProductController::class, 'index'])->name('client.product.index');
+    Route::get('/products/{product}', [ProductController::class, 'show'])->name('client.product.show');
 
     Route::post('/quotation', [QuotationController::class, 'store'])->name('quotation.store');
 

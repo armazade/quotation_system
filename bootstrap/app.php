@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AllowAdmin;
 use App\Http\Middleware\AllowClient;
+use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -24,6 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->web(append: [
+            HandleInertiaRequests::class,
+        ]);
+
         // Register your custom middleware aliases here
         $middleware->alias([
             'admin' => AllowAdmin::class,

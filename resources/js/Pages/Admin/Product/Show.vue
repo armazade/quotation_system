@@ -9,6 +9,10 @@ import DeleteButton from "@/Components/Buttons/DeleteButton.vue";
 
 defineProps({
     product: Object,
+    canEdit: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 </script>
@@ -24,7 +28,7 @@ defineProps({
         <div class="admin_page_status_container">
             <ProductStatusIndicator :status="product.is_active" class="my-auto"/>
 
-            <div class="button_container">
+            <div v-if="canEdit" class="button_container">
                 <DeleteButton
                     :item="product"
                     route-name="admin.product.destroy"

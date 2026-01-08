@@ -6,9 +6,19 @@ import LinkButton from "@/Components/Buttons/BaseButton.vue";
 import RealButton from "@/Components/Buttons/RealButton.vue";
 import ProductStatusIndicator from "@/Components/StatusIndicators/ProductStatusIndicator.vue";
 
-defineProps({
+const props = defineProps({
     products: Object,
+    canCreate: {
+        type: Boolean,
+        default: false,
+    },
 });
+
+const productRoute = (product) => {
+    return props.canCreate
+        ? route('admin.product.show', { id: product.id })
+        : route('client.product.show', { product: product.id });
+};
 </script>
 
 <template>
@@ -19,7 +29,7 @@ defineProps({
             <h2 class="admin_page_header">{{ __('products') }}</h2>
         </template>
 
-        <div class="admin_page_status_container">
+        <div v-if="canCreate" class="admin_page_status_container">
             <div class="button_container">
                 <link-button :href="route('admin.product.create')">
                     {{ __('button.create') }}
@@ -40,19 +50,24 @@ defineProps({
                 <tbody>
                 <tr v-for="product in products.data">
                     <td>
-                        <real-button :href="route('admin.product.show', { id:  product.id})">
+                        <real-button :href="productRoute(product)">
                             {{ product.article_number }}
                         </real-button>
                     </td>
                     <td>
-                        <real-button :href="route('admin.product.show', { id:  product.id})">
+                        <real-button :href="productRoute(product)">
                             {{ product.name }}
                         </real-button>
                     </td>
                     <td>
-                        <real-button :href="route('admin.company.show', { id:  product.supplier.id})">
+                        <template v-if="canCreate">
+                            <real-button :href="route('admin.company.show', { company:  product.supplier.id})">
+                                {{ product.supplier.name }}
+                            </real-button>
+                        </template>
+                        <template v-else>
                             {{ product.supplier.name }}
-                        </real-button>
+                        </template>
                     </td>
                     <td>
                         <ProductStatusIndicator :status="product.is_active" class="my-auto"/>

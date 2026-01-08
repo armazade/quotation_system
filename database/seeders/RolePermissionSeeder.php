@@ -12,8 +12,6 @@ class RolePermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -52,6 +50,9 @@ class RolePermissionSeeder extends Seeder
             Permission::create(['name' => PermissionType::CLIENT_QUOTATION_READ]),
             Permission::create(['name' => PermissionType::CLIENT_USER_LIST]),
             Permission::create(['name' => PermissionType::CLIENT_USER_READ]),
+
+            Permission::firstOrCreate(['name' => PermissionType::CLIENT_PRODUCT_LIST]),
+            Permission::firstOrCreate(['name' => PermissionType::CLIENT_PRODUCT_READ]),
         ];
 
         $clientRole->syncPermissions($clientPermissions);
