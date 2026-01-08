@@ -26,6 +26,14 @@ const productIndexRoute = computed(() => {
 const isProductRoute = computed(() => {
     return route().current('admin.product.*') || route().current('client.product.*');
 });
+
+const quotationIndexRoute = computed(() => {
+    return isAdmin.value ? route('admin.quotation.index') : route('client.quotation.index');
+});
+
+const isQuotationRoute = computed(() => {
+    return route().current('admin.quotation.*') || route().current('client.quotation.*') || route().current('quotation.*');
+});
 </script>
 
 <template>
@@ -59,6 +67,12 @@ const isProductRoute = computed(() => {
                                     :active="isProductRoute"
                                 >
                                     {{ __('products') }}
+                                </NavLink>
+                                <NavLink
+                                    :href="quotationIndexRoute"
+                                    :active="isQuotationRoute"
+                                >
+                                    {{ __('quotations') }}
                                 </NavLink>
                                 <NavLink
                                     v-if="isAdmin"
@@ -167,6 +181,12 @@ const isProductRoute = computed(() => {
                             :active="isProductRoute"
                         >
                             {{ __('products') }}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="quotationIndexRoute"
+                            :active="isQuotationRoute"
+                        >
+                            {{ __('quotations') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             v-if="isAdmin"

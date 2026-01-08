@@ -3,6 +3,7 @@
 namespace Domain\User\Controllers;
 
 use App\Http\Controllers\Controller;
+use Domain\Quotation\Models\Quotation;
 use Domain\User\Enums\PermissionType;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -20,8 +21,17 @@ class DashboardController extends Controller
             return redirect()->route('admin.dashboard')->with(['message' => session()->get('message', app(ViewErrorBag::class))]);
         }
 
-        return Inertia::render('Dashboard', [
+        $quotations = Quotation::where('company_id', Auth::user()->company_id)
+            ->with(['lines', 'lines.product'])
+            ->orderByDesc('created_at')
+            ->take(5)
+            ->get();
 
+        $quotationsCount = Quotation::where('company_id', Auth::user()->company_id)->count();
+
+        return Inertia::render('Dashboard', [
+            'quotations' => $quotations,
+            'quotationsCount' => $quotationsCount,
         ]);
     }
 }

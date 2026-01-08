@@ -3,12 +3,14 @@
 namespace Domain\Quotation\Models;
 
 use Domain\Product\Models\Product;
+use Domain\Quotation\Enums\QuotationLineType;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 
@@ -44,11 +46,25 @@ use Illuminate\Support\Carbon;
 class QuotationLine extends Model
 {
     use HasUuids;
+    use SoftDeletes;
+
+    protected $fillable = [
+        'quotation_id',
+        'product_id',
+        'description',
+        'has_custom_description',
+        'quantity',
+        'unit_price',
+        'line_type',
+    ];
 
     protected $appends = ['total_price'];
 
     protected $casts = [
         'unit_price' => 'float',
+        'quantity' => 'integer',
+        'has_custom_description' => 'boolean',
+        'line_type' => QuotationLineType::class,
     ];
 
     public function totalPrice(): Attribute
@@ -58,13 +74,13 @@ class QuotationLine extends Model
         );
     }
 
-    public function quotation(): HasOne
+    public function quotation(): BelongsTo
     {
-        return $this->hasOne(Quotation::class, 'id', 'quotation_id');
+        return $this->belongsTo(Quotation::class, 'quotation_id', 'id');
     }
 
-    public function product(): HasOne
+    public function product(): BelongsTo
     {
-        return $this->hasOne(Product::class, 'id', 'product_id');
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

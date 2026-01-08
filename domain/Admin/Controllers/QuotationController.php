@@ -65,18 +65,13 @@ class QuotationController extends Controller
     {
         $quotation->load([
             'company',
-            'lines',
+            'lines.product',
+            'user',
         ]);
 
-        $render = Inertia::render('Admin/Quotation/Show', [
+        return Inertia::render('Admin/Quotation/Show', [
             'quotation' => $quotation,
         ]);
-
-        if ($quotation->total_price <= 0) {
-            $render->with('flash', [FlashMessageService::type() => FlashMessageService::sendError(FlashMessageType::QUOTATION_LOWER_THAN_ZERO)]);
-        }
-
-        return $render;
     }
 
     public function edit(QuotationShowRequest $request, Quotation $quotation): Response

@@ -59,10 +59,21 @@ class Quotation extends Model
     use HasFactory;
     use HasUuids;
 
+    protected $fillable = [
+        'company_id',
+        'user_id',
+        'status',
+        'reference',
+        'quotation_sent_at',
+    ];
+
     protected $appends = [
         'total_price',
         'expires_in_days',
         'expires_at',
+        'subtotal',
+        'delivery_cost',
+        'grand_total',
     ];
 
     protected $casts = [
@@ -80,6 +91,29 @@ class Quotation extends Model
     {
         return Attribute::make(
             get: fn() => $this->lines->sum('total_price'),
+        );
+    }
+
+    public function subtotal(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->lines
+                ->where('line_type', '!=', 'delivery')
+                ->sum('total_price'),
+        );
+    }
+
+    public function deliveryCost(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->subtotal < 50 ? 9.00 : 0.00,
+        );
+    }
+
+    public function grandTotal(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->subtotal + $this->delivery_cost,
         );
     }
 

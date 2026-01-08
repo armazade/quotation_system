@@ -2,6 +2,7 @@
 
 import moment from "moment/moment";
 import {useForm} from "@inertiajs/vue3";
+import {formatting} from "@/Mixins/formatting";
 import FormSelectInput from "@/Components/Form/FormSelectInput.vue";
 import FormTextInput from "@/Components/Form/FormTextInput.vue";
 import LinkButton from "@/Components/Buttons/BaseButton.vue";
