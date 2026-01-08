@@ -26,6 +26,7 @@ class ProductController extends Controller
     {
         $products = Product::query()
             ->with('supplier')
+            ->when(! Auth::user()->isAdmin(), fn ($query) => $query->where('is_active', true))
             ->paginate(10);
 
         return Inertia::render('Admin/Product/Index', [
@@ -76,6 +77,10 @@ class ProductController extends Controller
 
     public function show(ProductShowRequest $request, Product $product): Response
     {
+        if (! $product->is_active && ! Auth::user()->isAdmin()) {
+            abort(404);
+        }
+
         return Inertia::render('Admin/Product/Show', [
             'product' => $product,
             'canEdit' => Auth::user()->isAdmin(),

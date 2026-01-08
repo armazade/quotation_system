@@ -32,6 +32,7 @@ export default {
             unit_price: props.product.unit_price,
             is_active: props.product.is_active,
             supplier_id: props.product.supplier_id,
+            article_number: props.product.article_number,
             file: null,
             _method: 'PATCH',
         })
