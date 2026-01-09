@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('/admin')->group(callba
     Route::delete('/quotations/{quotation}', [QuotationController::class, 'destroy'])->name('admin.quotation.destroy');
 
     Route::post('/quotations/{quotation}/send', [QuotationController::class, 'send'])->name('admin.quotation.send');
+    Route::post('/quotations/{quotation}/approve', [QuotationController::class, 'approve'])->name('admin.quotation.approve');
 
     Route::get('/products', [ProductController::class, 'index'])->name('admin.product.index');
     Route::get('/product', [ProductController::class, 'create'])->name('admin.product.create');

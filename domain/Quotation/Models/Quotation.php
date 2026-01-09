@@ -36,6 +36,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $lines_count
  * @property-read mixed $total_price
  * @property-read User|null $user
+ *
  * @method static QuotationFactory factory($count = null, $state = [])
  * @method static Builder|Quotation newModelQuery()
  * @method static Builder|Quotation newQuery()
@@ -52,6 +53,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Quotation whereUserId($value)
  * @method static Builder|Quotation withTrashed()
  * @method static Builder|Quotation withoutTrashed()
+ *
  * @mixin Eloquent
  */
 class Quotation extends Model
@@ -90,14 +92,14 @@ class Quotation extends Model
     public function totalPrice(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->lines->sum('total_price'),
+            get: fn () => $this->lines->sum('total_price'),
         );
     }
 
     public function subtotal(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->lines
+            get: fn () => $this->lines
                 ->where('line_type', '!=', 'delivery')
                 ->sum('total_price'),
         );
@@ -106,14 +108,14 @@ class Quotation extends Model
     public function deliveryCost(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->subtotal < 50 ? 9.00 : 0.00,
+            get: fn () => $this->subtotal < 50 ? 9.00 : 0.00,
         );
     }
 
     public function grandTotal(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->subtotal + $this->delivery_cost,
+            get: fn () => $this->subtotal + $this->delivery_cost,
         );
     }
 
@@ -125,15 +127,30 @@ class Quotation extends Model
     public function expiresInDays(): Attribute
     {
         return Attribute::make(
-            get: fn() => isset($this->quotation_sent_at) ? now()->diffInDays($this->expires_at, false) : null,
+            get: fn () => isset($this->quotation_sent_at) ? now()->diffInDays($this->expires_at, false) : null,
         );
     }
 
     public function expiresAt(): Attribute
     {
         return Attribute::make(
-            get: fn() => isset($this->quotation_sent_at) ? $this->quotation_sent_at->addDays(QuotationDurationType::REGULAR->value) : null,
+            get: fn () => isset($this->quotation_sent_at) ? $this->quotation_sent_at->addDays(QuotationDurationType::REGULAR->value) : null,
         );
+    }
+
+    public function isExpired(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->expires_at !== null && $this->expires_at->isPast(),
+        );
+    }
+
+    public function scopeNotExpired(Builder $query): Builder
+    {
+        return $query->where(function ($q) {
+            $q->whereNull('quotation_sent_at')
+                ->orWhereRaw('DATE_ADD(quotation_sent_at, INTERVAL ? DAY) >= CURDATE()', [QuotationDurationType::REGULAR->value]);
+        })->where('status', '!=', QuotationStatusType::EXPIRED);
     }
 
     public function company(): BelongsTo

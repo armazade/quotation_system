@@ -9,6 +9,7 @@ enum QuotationStatusType: string
     use EnumTrait;
 
     case DRAFT = 'draft';
-    case CLOSED = 'closed';
+    case IN_REVIEW = 'in_review';
+    case ACTIVE = 'active';
     case EXPIRED = 'expired';
 }

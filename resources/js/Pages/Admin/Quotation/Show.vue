@@ -1,10 +1,12 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import QuotationStatusIndicator from '@/Components/StatusIndicators/QuotationStatusIndicator.vue';
 import RealButton from '@/Components/Buttons/RealButton.vue';
 import LinkButton from '@/Components/Buttons/BaseButton.vue';
+import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { formatting } from '@/Mixins/formatting';
+import { QuotationStatusType } from '@/Enums/QuotationStatusType';
 import moment from 'moment';
 import { computed } from 'vue';
 
@@ -15,6 +17,12 @@ const props = defineProps({
 const deliveryCost = computed(() => {
     return props.quotation.subtotal < 50 ? 9.00 : 0.00;
 });
+
+const approveForm = useForm({});
+
+function approveQuotation() {
+    approveForm.post(route('admin.quotation.approve', props.quotation));
+}
 </script>
 
 <template>
@@ -30,7 +38,15 @@ const deliveryCost = computed(() => {
         <div class="admin_page_status_container">
             <QuotationStatusIndicator :status="quotation.status" class="my-auto" />
 
-            <div class="button_container">
+            <div class="button_container flex gap-2">
+                <PrimaryButton
+                    v-if="quotation.status === QuotationStatusType.IN_REVIEW"
+                    @click="approveQuotation"
+                    :disabled="approveForm.processing"
+                    class="bg-green-600 hover:bg-green-700"
+                >
+                    {{ __('button.approve') }}
+                </PrimaryButton>
                 <link-button :href="route('admin.quotation.index')">
                     {{ __('button.back') }}
                 </link-button>

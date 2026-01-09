@@ -9,13 +9,13 @@ const props = defineProps([
 
 const getBgColor = (status) => {
     if (status === QuotationStatusType.DRAFT) {
-        return 'bg-blue-100 border-blue-200';
+        return 'bg-gray-100 border-gray-200';
     }
-    if (status === QuotationStatusType.WAITING_FOR_TECHNICAL_DRAWING) {
+    if (status === QuotationStatusType.IN_REVIEW) {
         return 'bg-yellow-100 border-yellow-200';
     }
-    if (status === QuotationStatusType.CLOSED) {
-        return 'bg-gray-200 border-gray-300';
+    if (status === QuotationStatusType.ACTIVE) {
+        return 'bg-green-100 border-green-200';
     }
     if (status === QuotationStatusType.EXPIRED) {
         return 'bg-red-100 border-red-200';

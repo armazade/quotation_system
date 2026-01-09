@@ -17,6 +17,7 @@
     "boolean_value.false": "No",
     "boolean_value.true": "Yes",
     "button.accept": "Accept",
+    "button.approve": "Approve",
     "button.already_registered": "Already registered",
     "button.cancel": "Cancel",
     "button.cart_add": "Add to cart",

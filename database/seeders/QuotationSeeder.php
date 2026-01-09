@@ -22,16 +22,21 @@ class QuotationSeeder extends Seeder
             $quotationCount = fake()->numberBetween(1, 5);
 
             for ($i = 0; $i < $quotationCount; $i++) {
-                $status = fake()->randomElement(QuotationStatusType::cases());
+                // Weight towards IN_REVIEW status for demo purposes
+                $statusOptions = [
+                    QuotationStatusType::IN_REVIEW,
+                    QuotationStatusType::IN_REVIEW,
+                    QuotationStatusType::ACTIVE,
+                    QuotationStatusType::EXPIRED,
+                ];
+                $status = fake()->randomElement($statusOptions);
 
                 $quotation = QuotationFactory::new()
                     ->forCompany($client)
                     ->state([
                         'user_id' => $user?->id,
                         'status' => $status->value,
-                        'quotation_sent_at' => $status !== QuotationStatusType::DRAFT
-                            ? fake()->dateTimeBetween('-30 days', 'now')
-                            : null,
+                        'quotation_sent_at' => fake()->dateTimeBetween('-30 days', 'now'),
                     ])
                     ->create();
 

@@ -19,13 +19,16 @@ class QuotationFactory extends Factory
      */
     public function definition(): array
     {
-        $status = fake()->randomElement(QuotationStatusType::cases());
+        $status = fake()->randomElement([
+            QuotationStatusType::IN_REVIEW,
+            QuotationStatusType::ACTIVE,
+        ]);
 
         return [
             'user_id' => User::inRandomOrder()->first(),
             'reference' => fake()->randomNumber(8, true),
             'status' => $status->value,
-            'quotation_sent_at' => $status !== QuotationStatusType::DRAFT ? fake()->dateTime() : null,
+            'quotation_sent_at' => fake()->dateTime(),
         ];
     }
 

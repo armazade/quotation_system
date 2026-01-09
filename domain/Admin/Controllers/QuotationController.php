@@ -5,16 +5,15 @@ namespace Domain\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use Domain\Admin\Requests\QuotationAdminIndexRequest;
 use Domain\Admin\Requests\QuotationDestroyRequest;
+use Domain\Company\Models\Company;
+use Domain\Helper\Enums\FlashMessageType;
+use Domain\Helper\Enums\FlashType;
+use Domain\Quotation\Enums\QuotationStatusType;
 use Domain\Quotation\Models\Quotation;
-use Domain\Quotation\Services\QuotationService;
 use Domain\Quotation\Requests\QuotationShowRequest;
 use Domain\Quotation\Requests\QuotationStoreRequest;
 use Domain\Quotation\Requests\QuotationUpdateRequest;
-use Domain\Quotation\Enums\QuotationStatusType;
-use Domain\Helper\Enums\FlashMessageType;
-use Domain\Helper\Enums\FlashType;
-use Domain\Helper\Services\FlashMessageService;
-use Domain\Company\Models\Company;
+use Domain\Quotation\Services\QuotationService;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -23,7 +22,7 @@ class QuotationController extends Controller
 {
     public function index(QuotationAdminIndexRequest $request): Response
     {
-        $validated = (object)$request->validated();
+        $validated = (object) $request->validated();
 
         $quotations = QuotationService::adminIndex(
             QuotationStatusType::tryFrom($validated->quotation_status ?? ''),
@@ -49,7 +48,7 @@ class QuotationController extends Controller
 
     public function store(QuotationStoreRequest $request): RedirectResponse
     {
-        $validated = (object)$request->validated();
+        $validated = (object) $request->validated();
 
         $quotation = QuotationService::store($validated);
 
@@ -86,7 +85,7 @@ class QuotationController extends Controller
 
     public function update(QuotationUpdateRequest $request, Quotation $quotation): RedirectResponse
     {
-        $validated = (object)$request->validated();
+        $validated = (object) $request->validated();
 
         $quotation = QuotationService::update($quotation, $validated);
         $quotation->save();
@@ -119,6 +118,18 @@ class QuotationController extends Controller
             ->with('message', [
                 'type' => FlashType::SUCCESS,
                 'value' => FlashMessageType::QUOTATION_CREATED,
+            ]);
+    }
+
+    public function approve(Quotation $quotation): RedirectResponse
+    {
+        QuotationService::approve($quotation);
+
+        return redirect()
+            ->route('admin.quotation.show', $quotation)
+            ->with('message', [
+                'type' => FlashType::SUCCESS,
+                'value' => FlashMessageType::QUOTATION_UPDATED,
             ]);
     }
 }
