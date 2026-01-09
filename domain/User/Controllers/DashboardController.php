@@ -22,12 +22,15 @@ class DashboardController extends Controller
         }
 
         $quotations = Quotation::where('company_id', Auth::user()->company_id)
+            ->notExpired()
             ->with(['lines', 'lines.product'])
             ->orderByDesc('created_at')
             ->take(5)
             ->get();
 
-        $quotationsCount = Quotation::where('company_id', Auth::user()->company_id)->count();
+        $quotationsCount = Quotation::where('company_id', Auth::user()->company_id)
+            ->notExpired()
+            ->count();
 
         return Inertia::render('Dashboard', [
             'quotations' => $quotations,

@@ -2,10 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import LinkButton from '@/Components/Buttons/BaseButton.vue';
-import RealButton from '@/Components/Buttons/RealButton.vue';
-import QuotationStatusIndicator from '@/Components/StatusIndicators/QuotationStatusIndicator.vue';
-import { formatting } from '@/Mixins/formatting';
-import moment from 'moment';
+import QuotationCard from '@/Components/Cards/QuotationCard.vue';
 
 defineProps({
     quotations: Array,
@@ -34,33 +31,14 @@ defineProps({
                 </div>
             </div>
 
-            <div v-if="quotations.length > 0" class="admin_table_container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>{{ __('created_at') }}</th>
-                            <th>{{ __('status') }}</th>
-                            <th>{{ __('reference') }}</th>
-                            <th class="text-right">{{ __('costs_total') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="quotation in quotations" :key="quotation.id">
-                            <td>{{ moment(quotation.created_at).format("YYYY-MM-DD") }}</td>
-                            <td>
-                                <QuotationStatusIndicator :status="quotation.status" />
-                            </td>
-                            <td>
-                                <real-button :href="route('client.quotation.show', quotation)">
-                                    {{ quotation.reference || quotation.id.substring(0, 8) }}
-                                </real-button>
-                            </td>
-                            <td class="text-right">
-                                {{ formatting.methods.formatEuro(quotation.grand_total) }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div v-if="quotations.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <QuotationCard
+                    v-for="quotation in quotations"
+                    :key="quotation.id"
+                    :quotation="quotation"
+                    :show-company="false"
+                    :detail-route="route('client.quotation.show', quotation)"
+                />
             </div>
 
             <div v-else class="text-gray-500 text-center py-8">
