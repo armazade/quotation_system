@@ -15,7 +15,7 @@ class QuotationLineFactory extends Factory
     public function definition(): array
     {
         $product = Product::where('is_active', true)->inRandomOrder()->first();
-        $quantity = fake()->numberBetween(1, 10);
+        $quantity = fake()->numberBetween(1, 3);
 
         return [
             'product_id' => $product?->id,

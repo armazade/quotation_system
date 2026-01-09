@@ -29,7 +29,7 @@ const props = defineProps({
                 <QuotationStatusIndicator :status="quotation.status" />
             </div>
             <div class="text-sm text-gray-500">
-                {{ formatting.methods.formatDate(quotation.created_at) }}
+                {{ formatting.methods.formatDateTime(quotation.created_at) }}
             </div>
         </div>
 
@@ -41,12 +41,6 @@ const props = defineProps({
             </div>
         </div>
 
-        <div class="mb-3">
-            <div class="text-xs text-gray-500 uppercase tracking-wide">{{ __('reference') }}</div>
-            <div class="font-medium text-gray-800">
-                {{ quotation.reference || quotation.id.substring(0, 8) }}
-            </div>
-        </div>
 
         <div class="flex justify-between items-center pt-3 border-t border-gray-100">
             <div>

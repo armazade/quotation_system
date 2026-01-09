@@ -21,7 +21,7 @@ class QuotationSeeder extends Seeder
             $user = $client->users()->first();
 
             // Create 1-5 quotations per client
-            $quotationCount = fake()->numberBetween(1, 5);
+            $quotationCount = fake()->numberBetween(1, 3);
 
             for ($i = 0; $i < $quotationCount; $i++) {
                 // Weight towards IN_REVIEW status for demo purposes
@@ -64,7 +64,7 @@ class QuotationSeeder extends Seeder
                     ->create();
 
                 // Create 1-5 product lines per quotation
-                $lineCount = fake()->numberBetween(1, 5);
+                $lineCount = fake()->numberBetween(1, 3);
 
                 QuotationLineFactory::new()
                     ->forQuotation($quotation)
