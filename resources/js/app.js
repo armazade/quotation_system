@@ -1,4 +1,5 @@
 import '../css/app.css';
+import 'flag-icons/css/flag-icons.min.css';
 import './bootstrap';
 
 import { createApp, h } from 'vue';

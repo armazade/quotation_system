@@ -207,10 +207,10 @@ const isQuotationRoute = computed(() => {
                         <div class="flex flex-wrap gap-2">
                             <a
                                 v-for="lang in [
-                                    { code: 'en', name: 'EN', flag: '🇬🇧' },
-                                    { code: 'nl', name: 'NL', flag: '🇳🇱' },
-                                    { code: 'de', name: 'DE', flag: '🇩🇪' },
-                                    { code: 'fr', name: 'FR', flag: '🇫🇷' },
+                                    { code: 'en', name: 'EN', flagCode: 'gb' },
+                                    { code: 'nl', name: 'NL', flagCode: 'nl' },
+                                    { code: 'de', name: 'DE', flagCode: 'de' },
+                                    { code: 'fr', name: 'FR', flagCode: 'fr' },
                                 ]"
                                 :key="lang.code"
                                 :href="route('lang.update', { locale: lang.code })"
@@ -221,7 +221,7 @@ const isQuotationRoute = computed(() => {
                                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                 ]"
                             >
-                                <span>{{ lang.flag }}</span>
+                                <span :class="['fi', `fi-${lang.flagCode}`, 'rounded-sm']"></span>
                                 <span>{{ lang.name }}</span>
                             </a>
                         </div>

@@ -7,10 +7,10 @@ const page = usePage();
 const currentLocale = computed(() => page.props.locale || 'en');
 
 const languages = [
-    { code: 'en', name: 'EN', flag: '🇬🇧' },
-    { code: 'nl', name: 'NL', flag: '🇳🇱' },
-    { code: 'de', name: 'DE', flag: '🇩🇪' },
-    { code: 'fr', name: 'FR', flag: '🇫🇷' },
+    { code: 'en', name: 'EN', flagCode: 'gb' },
+    { code: 'nl', name: 'NL', flagCode: 'nl' },
+    { code: 'de', name: 'DE', flagCode: 'de' },
+    { code: 'fr', name: 'FR', flagCode: 'fr' },
 ];
 
 const currentLanguage = computed(() => {
@@ -25,7 +25,7 @@ const currentLanguage = computed(() => {
                 type="button"
                 class="inline-flex items-center gap-2 bg-transparent px-3 py-2 text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
             >
-                <span class="text-base">{{ currentLanguage.flag }}</span>
+                <span :class="['fi', `fi-${currentLanguage.flagCode}`, 'rounded-sm']" style="font-size: 1.2em;"></span>
                 <span>{{ currentLanguage.name }}</span>
                 <svg
                     class="h-4 w-4"
@@ -55,7 +55,7 @@ const currentLanguage = computed(() => {
                             : 'text-gray-700 hover:bg-gray-100'
                     ]"
                 >
-                    <span class="text-base">{{ lang.flag }}</span>
+                    <span :class="['fi', `fi-${lang.flagCode}`, 'rounded-sm']" style="font-size: 1.2em;"></span>
                     <span>{{ lang.name }}</span>
                     <svg
                         v-if="currentLocale === lang.code"
