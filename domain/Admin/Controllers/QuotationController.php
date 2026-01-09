@@ -45,7 +45,7 @@ class QuotationController extends Controller
         $companies = Company::orderBy('name')->get();
 
         return Inertia::render('Admin/Quotation/Create', [
-            'companies' => CompanyResource::collection($companies),
+            'companies' => CompanyResource::collection($companies)->resolve(),
         ]);
     }
 
@@ -72,7 +72,7 @@ class QuotationController extends Controller
         ]);
 
         return Inertia::render('Admin/Quotation/Show', [
-            'quotation' => new QuotationResource($quotation),
+            'quotation' => (new QuotationResource($quotation))->resolve(),
         ]);
     }
 
@@ -81,8 +81,8 @@ class QuotationController extends Controller
         $companies = Company::orderBy('name')->get();
 
         return Inertia::render('Admin/Quotation/Edit', [
-            'quotation' => new QuotationResource($quotation),
-            'companies' => CompanyResource::collection($companies),
+            'quotation' => (new QuotationResource($quotation))->resolve(),
+            'companies' => CompanyResource::collection($companies)->resolve(),
         ]);
     }
 

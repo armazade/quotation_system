@@ -31,10 +31,10 @@ class CompanyResource extends JsonResource
             'exact_id' => $this->exact_id,
             'credit_balance' => $this->credit_balance,
             'created_at' => $this->created_at?->toISOString(),
-            'locations' => CompanyLocationResource::collection($this->whenLoaded('locations')),
-            'quotations' => QuotationResource::collection($this->whenLoaded('quotations')),
-            'users' => UserResource::collection($this->whenLoaded('users')),
-            'default_location' => $this->whenLoaded('defaultLocation', fn () => new CompanyLocationResource($this->defaultLocation)),
+            'locations' => $this->whenLoaded('locations', fn () => CompanyLocationResource::collection($this->locations)->resolve()),
+            'quotations' => $this->whenLoaded('quotations', fn () => QuotationResource::collection($this->quotations)->resolve()),
+            'users' => $this->whenLoaded('users', fn () => UserResource::collection($this->users)->resolve()),
+            'default_location' => $this->whenLoaded('defaultLocation', fn () => (new CompanyLocationResource($this->defaultLocation))->resolve()),
         ];
     }
 }

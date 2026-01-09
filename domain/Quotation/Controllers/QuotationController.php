@@ -47,7 +47,7 @@ class QuotationController extends Controller
         ]);
 
         return Inertia::render('Client/Quotation/Show', [
-            'quotation' => new QuotationResource($quotation),
+            'quotation' => (new QuotationResource($quotation))->resolve(),
         ]);
     }
 
@@ -93,9 +93,9 @@ class QuotationController extends Controller
         }
 
         return Inertia::render('Client/Quotation/Create', [
-            'products' => ProductResource::collection($products),
-            'company' => $company ? new AuthCompanyResource($company) : null,
-            'preselectedProduct' => $preselectedProduct ? new ProductResource($preselectedProduct) : null,
+            'products' => ProductResource::collection($products)->resolve(),
+            'company' => $company ? (new AuthCompanyResource($company))->resolve() : null,
+            'preselectedProduct' => $preselectedProduct ? (new ProductResource($preselectedProduct))->resolve() : null,
         ]);
     }
 }

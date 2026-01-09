@@ -49,7 +49,7 @@ defineProps({
                         </td>
                         <td>
                             <real-button :href="route('client.quotation.show', quotation)">
-                                {{ quotation.reference || quotation.id.substring(0, 8) }}
+                                {{ quotation.reference || quotation.id?.substring(0, 8) }}
                             </real-button>
                         </td>
                         <td>{{ quotation.lines?.length || 0 }}</td>

@@ -24,7 +24,7 @@ const deliveryCost = computed(() => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="admin_page_header">
-                {{ __('quotation') }} - {{ quotation.reference || quotation.id.substring(0, 8) }}
+                {{ __('quotation') }} - {{ quotation.reference || quotation.id?.substring(0, 8) }}
             </h2>
         </template>
 

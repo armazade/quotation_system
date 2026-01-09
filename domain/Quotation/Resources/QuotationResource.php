@@ -25,13 +25,20 @@ class QuotationResource extends JsonResource
             'grand_total' => $this->grand_total,
             'created_at' => $this->created_at?->toISOString(),
             'company_id' => $this->company_id,
+            'company' => $this->whenLoaded('company', fn () => [
+                'id' => $this->company->id,
+                'name' => $this->company->name,
+                'debiteur_number' => $this->company->debiteur_number,
+            ]),
             'user_id' => $this->user_id,
             'user' => $this->whenLoaded('user', fn () => [
                 'id' => $this->user->id,
+                'first_name' => $this->user->first_name,
+                'last_name' => $this->user->last_name,
                 'full_name' => $this->user->full_name,
                 'email' => $this->user->email,
             ]),
-            'lines' => QuotationLineResource::collection($this->whenLoaded('lines')),
+            'lines' => $this->whenLoaded('lines', fn () => QuotationLineResource::collection($this->lines)->resolve()),
         ];
     }
 }

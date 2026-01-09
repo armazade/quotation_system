@@ -13,7 +13,7 @@ const page = usePage();
 const user = computed(() => page.props.auth?.user);
 const fullName = computed(() => {
     if (!user.value) return '';
-    return `${user.value.first_name} ${user.value.last_name}`;
+    return user.value.full_name;
 });
 
 const activeMenu = {

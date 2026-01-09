@@ -14,7 +14,7 @@ class QuotationService
     public static function adminIndex(?QuotationStatusType $status = null, ?string $reference = null, ?string $companyName = null, ?string $debiteurNumber = null, int $perPage = 10): LengthAwarePaginator
     {
         $query = Quotation::query()
-            ->with(['company', 'lines'])
+            ->with(['company', 'lines', 'user'])
             ->whereIn('status', [QuotationStatusType::IN_REVIEW, QuotationStatusType::ACTIVE, QuotationStatusType::EXPIRED])
             ->orderByDesc('created_at');
 

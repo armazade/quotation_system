@@ -24,17 +24,15 @@ class CompanyController extends Controller
         $company->load([
             'locations',
             'quotations' => function ($query) {
-                return $query->paginate(3);
+                $query->with(['lines', 'user'])->latest()->limit(10);
             },
-            'quotations.lines',
-            'quotations.user',
             'users',
         ]);
 
         $quotationCount = $company->quotations()->count();
 
         return Inertia::render('Admin/Company/Show', [
-            'company' => new CompanyResource($company),
+            'company' => (new CompanyResource($company))->resolve(),
             'quotationCount' => $quotationCount,
         ]);
     }
@@ -45,7 +43,7 @@ class CompanyController extends Controller
 
         return Inertia::render('Admin/Company/Edit', [
             'countryCodeTypes' => $countryCodeTypes,
-            'company' => new CompanyResource($company),
+            'company' => (new CompanyResource($company))->resolve(),
         ]);
     }
 

@@ -98,7 +98,7 @@ const isQuotationRoute = computed(() => {
                                                 type="button"
                                                 class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                             >
-                                                {{ user?.full_name || user?.name || `${user?.first_name} ${user?.last_name}` }}
+                                                {{ user?.full_name }}
 
                                                 <svg
                                                     class="-me-0.5 ms-2 h-4 w-4"
@@ -231,7 +231,7 @@ const isQuotationRoute = computed(() => {
                     <div class="border-t border-gray-200 pb-1 pt-4">
                         <div class="px-4">
                             <div class="text-base font-medium text-gray-800">
-                                {{ user?.full_name || user?.name || `${user?.first_name} ${user?.last_name}` }}
+                                {{ user?.full_name }}
                             </div>
                             <div class="text-sm font-medium text-gray-500">
                                 {{ user?.email }}

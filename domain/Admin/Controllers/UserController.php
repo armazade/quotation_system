@@ -33,7 +33,7 @@ class UserController extends Controller
         $user->load('company');
 
         return Inertia::render('Admin/User/Show', [
-            'user' => new UserResource($user),
+            'user' => (new UserResource($user))->resolve(),
         ]);
     }
 }

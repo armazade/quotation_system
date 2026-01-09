@@ -31,7 +31,6 @@ const deleteItem = (item) => {
 
 <template>
     <link-button @click="deleteItem(props.item)">
-        <font-awesome-icon icon="trash" class="mr-1 text-sm" />
         {{ __('button.delete') }}
     </link-button>
 </template>

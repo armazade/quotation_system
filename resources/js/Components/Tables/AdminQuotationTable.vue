@@ -134,14 +134,15 @@ const submit = () => {
                             {{ quotation.reference }}
                         </real-button>
                     </td>
-                    <td v-if="showCompanyName">{{ quotation.company.debiteur_number || '-' }}</td>
+                    <td v-if="showCompanyName">{{ quotation.company?.debiteur_number || '-' }}</td>
                     <td v-if="showCompanyName">
-                        <real-button :href="route('admin.company.show', { id:  quotation.company.id})">
+                        <real-button v-if="quotation.company" :href="route('admin.company.show', { id: quotation.company.id })">
                             {{ quotation.company.name }}
                         </real-button>
+                        <span v-else>-</span>
                     </td>
                     <td v-if="showUserName" class="max-w-52 truncate">
-                        {{ quotation.user.first_name }}
+                        {{ quotation.user?.first_name || '-' }}
                     </td>
                     <td class="text-right">{{ formatting.methods.formatEuro(quotation.total_price) }}</td>
                 </tr>

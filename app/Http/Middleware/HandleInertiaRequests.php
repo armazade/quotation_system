@@ -72,8 +72,8 @@ class HandleInertiaRequests extends Middleware
             ->toArray();
 
         return [
-            'user' => new AuthUserResource($user),
-            'company' => $user->company ? new AuthCompanyResource($user->company) : null,
+            'user' => (new AuthUserResource($user))->resolve(),
+            'company' => $user->company ? (new AuthCompanyResource($user->company))->resolve() : null,
             'permissions' => $permissions,
         ];
     }

@@ -99,7 +99,7 @@ class ProductController extends Controller
         $product->load(['supplier', 'profileImages', 'deliveryOptions']);
 
         return Inertia::render('Admin/Product/Show', [
-            'product' => new ProductResource($product),
+            'product' => (new ProductResource($product))->resolve(),
             'canEdit' => Auth::user()->isAdmin(),
         ]);
     }
@@ -114,7 +114,7 @@ class ProductController extends Controller
         $product->load(['supplier', 'profileImages', 'deliveryOptions']);
 
         return Inertia::render('Admin/Product/Edit', [
-            'product' => new ProductResource($product),
+            'product' => (new ProductResource($product))->resolve(),
             'suppliers' => $suppliers,
         ]);
     }
