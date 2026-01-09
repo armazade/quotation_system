@@ -204,23 +204,25 @@ const isQuotationRoute = computed(() => {
                     <!-- Responsive Language Switcher -->
                     <div class="border-t border-gray-200 py-3 px-4">
                         <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{{ __('language') }}</div>
-                        <div class="flex gap-2">
+                        <div class="flex flex-wrap gap-2">
                             <a
                                 v-for="lang in [
-                                    { code: 'en', name: 'EN' },
-                                    { code: 'nl', name: 'NL' },
-                                    { code: 'de', name: 'DE' },
+                                    { code: 'en', name: 'EN', flag: '🇬🇧' },
+                                    { code: 'nl', name: 'NL', flag: '🇳🇱' },
+                                    { code: 'de', name: 'DE', flag: '🇩🇪' },
+                                    { code: 'fr', name: 'FR', flag: '🇫🇷' },
                                 ]"
                                 :key="lang.code"
                                 :href="route('lang.update', { locale: lang.code })"
                                 :class="[
-                                    'px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                                    'flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors',
                                     $page.props.locale === lang.code
                                         ? 'bg-blue-100 text-blue-700'
                                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                 ]"
                             >
-                                {{ lang.name }}
+                                <span>{{ lang.flag }}</span>
+                                <span>{{ lang.name }}</span>
                             </a>
                         </div>
                     </div>
