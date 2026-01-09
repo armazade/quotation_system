@@ -66,6 +66,16 @@ class Product extends Model implements HasMedia
     use HasUuids;
     use InteractsWithMedia;
 
+    protected $fillable = [
+        'name',
+        'is_active',
+        'supplier_id',
+        'unit_price',
+        'description',
+        'article_number',
+        'brand',
+    ];
+
     protected $with = [
         'deliveryOptions',
         'profileImages',

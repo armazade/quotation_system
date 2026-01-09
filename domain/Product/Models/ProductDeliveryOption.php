@@ -35,6 +35,12 @@ class ProductDeliveryOption extends Model
 {
     use HasUuids;
 
+    protected $fillable = [
+        'product_id',
+        'processing_term_type',
+        'days',
+    ];
+
     protected $casts = [
         'processing_term_type' => ProcessingTermType::class,
     ];

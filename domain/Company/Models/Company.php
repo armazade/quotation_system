@@ -100,6 +100,25 @@ class Company extends Model
     use HasUuids;
     use Notifiable;
 
+    protected $fillable = [
+        'company_type',
+        'is_schut',
+        'name',
+        'debiteur_number',
+        'email',
+        'phone_country_code',
+        'phone_number',
+        'website',
+        'legal_owner',
+        'vat_number',
+        'coc_number',
+        'iban_number',
+        'bic_number',
+        'industry_type',
+        'exact_id',
+        'credit_balance',
+    ];
+
     protected $casts = [
         'phone_country_code' => CountryCodeType::class,
         'company_type' => CompanyType::class,

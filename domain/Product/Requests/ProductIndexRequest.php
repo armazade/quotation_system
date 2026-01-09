@@ -15,6 +15,8 @@ class ProductIndexRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'search' => ['nullable', 'string', 'max:255'],
+        ];
     }
 }

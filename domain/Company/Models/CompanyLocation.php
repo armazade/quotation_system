@@ -49,6 +49,16 @@ class CompanyLocation extends Model
     use HasFactory;
     use HasUuids;
 
+    protected $fillable = [
+        'company_id',
+        'is_default',
+        'address_line_1',
+        'address_line_2',
+        'zip_code',
+        'city',
+        'country',
+    ];
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');

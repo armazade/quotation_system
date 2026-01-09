@@ -37,7 +37,7 @@ class ProductStoreRequest extends FormRequest
 
         $rules['supplier_id'] = ['required', 'exists:companies,id'];
 
-        $rules['file'] = ['nullable', 'file', 'max:50000', 'image'];
+        $rules['file'] = ['nullable', 'file', 'max:50000', 'mimes:jpeg,jpg,png,gif,webp,bmp'];
 
         return $rules;
     }
