@@ -23,6 +23,7 @@ enum QuotationStatusType: string
 
         $result[self::IN_REVIEW->value] = self::IN_REVIEW->value;
         $result[self::ACTIVE->value] = self::ACTIVE->value;
+        $result[self::EXPIRED->value] = self::EXPIRED->value;
 
         return $result;
     }

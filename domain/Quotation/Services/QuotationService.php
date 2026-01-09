@@ -15,7 +15,7 @@ class QuotationService
     {
         $query = Quotation::query()
             ->with(['company', 'lines'])
-            ->whereIn('status', [QuotationStatusType::IN_REVIEW, QuotationStatusType::ACTIVE])
+            ->whereIn('status', [QuotationStatusType::IN_REVIEW, QuotationStatusType::ACTIVE, QuotationStatusType::EXPIRED])
             ->orderByDesc('created_at');
 
         if (isset($status)) {
@@ -113,6 +113,7 @@ class QuotationService
     {
         return DB::transaction(function () use ($quotation) {
             $quotation->status = QuotationStatusType::ACTIVE;
+            $quotation->quotation_sent_at = now();
             $quotation->save();
 
             return $quotation;

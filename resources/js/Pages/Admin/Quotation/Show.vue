@@ -70,6 +70,16 @@ function approveQuotation() {
                     <span class="text-gray-500">{{ __('created_at') }}:</span>
                     <span class="ml-2">{{ moment(quotation.created_at).format("DD-MM-YYYY HH:mm") }}</span>
                 </div>
+                <div v-if="quotation.quotation_sent_at">
+                    <span class="text-gray-500">{{ __('sent_at') }}:</span>
+                    <span class="ml-2">{{ moment(quotation.quotation_sent_at).format("DD-MM-YYYY") }}</span>
+                </div>
+                <div v-if="quotation.expires_at">
+                    <span class="text-gray-500">{{ __('expires_in') }}:</span>
+                    <span class="ml-2" :class="quotation.expires_in_days <= 0 ? 'text-red-600 font-semibold' : ''">
+                        {{ quotation.expires_in_days > 0 ? moment(quotation.expires_at).format("DD-MM-YYYY") : __('quotation_status.expired') }}
+                    </span>
+                </div>
                 <div v-if="quotation.user">
                     <span class="text-gray-500">{{ __('user') }}:</span>
                     <span class="ml-2">{{ quotation.user.first_name }} {{ quotation.user.last_name }}</span>
@@ -129,8 +139,11 @@ function approveQuotation() {
 
             <div class="mt-4 text-sm text-gray-600 bg-blue-50 p-4 rounded space-y-2">
                 <p>{{ __('delivery_info') }}</p>
-                <p v-if="quotation.expires_in_days > 0">
+                <p v-if="quotation.status === QuotationStatusType.ACTIVE && quotation.expires_in_days > 0">
                     {{ __('quotation_valid_for') }} <strong>{{ quotation.expires_in_days }}</strong> {{ __('days') }}
+                </p>
+                <p v-else-if="quotation.status === QuotationStatusType.EXPIRED" class="text-red-600 font-semibold">
+                    {{ __('quotation_status.expired') }}
                 </p>
                 <p class="text-xs text-gray-500 pt-2 border-t border-blue-100">
                     {{ __('quotation_disclaimer') }}

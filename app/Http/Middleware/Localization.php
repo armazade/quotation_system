@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class Localization
@@ -21,12 +22,23 @@ class Localization
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Session::has('locale') && (App::getLocale() !== Session::get('locale'))) {
-            App::setLocale(Session::get('locale'));
-        } else {
-            Session::put('locale', LocaleType::NL->value);
-            App::setLocale(Session::get('locale'));
+        $locale = null;
+
+        // First priority: authenticated user's locale preference
+        if (Auth::check() && Auth::user()->locale_type) {
+            $locale = Auth::user()->locale_type->value;
         }
+        // Second priority: session locale
+        elseif (Session::has('locale')) {
+            $locale = Session::get('locale');
+        }
+        // Default: NL
+        else {
+            $locale = LocaleType::NL->value;
+        }
+
+        Session::put('locale', $locale);
+        App::setLocale($locale);
 
         return $next($request);
     }
