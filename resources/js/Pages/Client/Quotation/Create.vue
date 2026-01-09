@@ -131,11 +131,11 @@ function submit() {
 </script>
 
 <template>
-    <Head :title="__('quotation.create')" />
+    <Head :title="__('quotation.request')" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="admin_page_header">{{ __('quotation.create') }}</h2>
+            <h2 class="admin_page_header">{{ __('quotation.request') }}</h2>
         </template>
 
         <div class="bg-white shadow-sm sm:rounded-lg">
@@ -284,7 +284,7 @@ function submit() {
                         :class="{ 'opacity-25': form.processing || form.lines.length === 0 }"
                         :disabled="form.processing || form.lines.length === 0"
                     >
-                        {{ __('button.create_quotation') }}
+                        {{ __('button.request_quotation') }}
                     </PrimaryButton>
                     <p class="text-sm text-gray-500">{{ __('quotation_disclaimer') }}</p>
                 </div>

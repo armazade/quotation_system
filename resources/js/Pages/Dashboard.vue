@@ -23,7 +23,7 @@ defineProps({
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('my_quotations') }}</h3>
                 <div class="flex gap-2">
                     <link-button :href="route('quotation.create')">
-                        {{ __('button.create_quotation') }}
+                        {{ __('button.request_quotation') }}
                     </link-button>
                     <link-button v-if="quotationsCount > 5" :href="route('client.quotation.index')">
                         {{ __('button.see_all') }}

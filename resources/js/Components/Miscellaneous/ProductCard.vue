@@ -32,7 +32,7 @@ const props = defineProps({
                         <span class="text-xl font-bold text-slate-900">{{ formatting.methods.formatEuro(product.unit_price) }}</span>
                     </p>
                     <link-button :href="route('quotation.create', { product: product.id })" class="w-full text-center">
-                        {{ __('button.create_quotation') }}
+                        {{ __('button.request_quotation') }}
                     </link-button>
                 </div>
             </div>

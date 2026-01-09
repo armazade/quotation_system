@@ -74,7 +74,7 @@ class QuotationController extends Controller
             ->route('client.quotation.show', $quotation)
             ->with('message', [
                 'type' => FlashType::SUCCESS,
-                'value' => FlashMessageType::QUOTATION_CREATED,
+                'value' => FlashMessageType::QUOTATION_REQUESTED,
             ]);
     }
 

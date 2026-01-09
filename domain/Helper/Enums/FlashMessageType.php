@@ -37,6 +37,7 @@ enum FlashMessageType: string
     case ORDER_AMOUNT_HIGHER_THAN_CREDIT_BALANCE = 'flash.order_amount_higher_than_credit_balance';
 
     case QUOTATION_CREATED = 'flash.quotation_created';
+    case QUOTATION_REQUESTED = 'flash.quotation_requested';
     case QUOTATION_UPDATED = 'flash.quotation_updated';
     case QUOTATION_DELETED = 'flash.quotation_deleted';
 
