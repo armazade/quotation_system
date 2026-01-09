@@ -86,9 +86,15 @@ class QuotationController extends Controller
 
         $company = Auth::user()->company;
 
+        $preselectedProduct = null;
+        if (request()->has('product')) {
+            $preselectedProduct = Product::find(request()->get('product'));
+        }
+
         return Inertia::render('Client/Quotation/Create', [
             'products' => $products,
             'company' => $company,
+            'preselectedProduct' => $preselectedProduct,
         ]);
     }
 }

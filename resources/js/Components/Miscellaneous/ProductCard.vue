@@ -1,6 +1,6 @@
 <script setup>
 
-import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
+import LinkButton from "@/Components/Buttons/BaseButton.vue";
 import {formatting} from "@/Mixins/formatting";
 
 const props = defineProps({
@@ -13,27 +13,27 @@ const props = defineProps({
 
 <template>
     <div>
-        <div class="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
             <!-- Product Details -->
             <div class="mt-4 px-5">
                 <div>
-                    <h5
-                        class="text-lg tracking-tight text-slate-900 truncate"
-                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-                    >
+                    <h5 class="text-lg tracking-tight text-slate-900">
                         {{ product.name }}
                     </h5>
+                    <p v-if="product.article_number" class="text-sm text-gray-500 mt-1">
+                        {{ __('article_number') }}: {{ product.article_number }}
+                    </p>
                     <p v-if="product.brand" class="text-sm text-gray-500 mt-1">
-                        {{ product.brand }}
+                        {{ __('brand') }}: {{ product.brand }}
                     </p>
                 </div>
-                <div class="mt-2 mb-5 flex items-center justify-between">
-                    <p>
+                <div class="mt-3 mb-5">
+                    <p class="mb-3">
                         <span class="text-xl font-bold text-slate-900">{{ formatting.methods.formatEuro(product.unit_price) }}</span>
                     </p>
-                    <PrimaryButton class="ml-4">
-                        {{ __('button.cart_add') }}
-                    </PrimaryButton>
+                    <link-button :href="route('quotation.create', { product: product.id })" class="w-full text-center">
+                        {{ __('button.create_quotation') }}
+                    </link-button>
                 </div>
             </div>
         </div>

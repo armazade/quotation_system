@@ -72,6 +72,7 @@
     "country_type.be": "Belgium",
     "country_type.de": "Germany",
     "country_type.nl": "The Netherlands",
+    "create_quotation_with_product": "Add this product to a new quotation request.",
     "created_at": "Created at",
     "dashboard": "Dashboard",
     "date_end": "End date",

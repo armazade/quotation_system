@@ -27,16 +27,17 @@ class QuotationExpireCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
-        $quotations = Quotation::query()
-            ->where('status', QuotationStatusType::WAITING_FOR_TECHNICAL_DRAWING)
-            ->where('quotation_sent_at', '<', Carbon::now()->subDays(QuotationDurationType::REGULAR->value))
-            ->get();
+        $expirationDate = Carbon::now()->subDays(QuotationDurationType::REGULAR->value);
 
-        foreach ($quotations as $quotation) {
-            $quotation->status = QuotationStatusType::EXPIRED;
-            $quotation->save();
-        }
+        $expiredCount = Quotation::query()
+            ->where('status', QuotationStatusType::ACTIVE)
+            ->where('quotation_sent_at', '<', $expirationDate)
+            ->update(['status' => QuotationStatusType::EXPIRED->value]);
+
+        $this->info("Expired {$expiredCount} quotation(s) older than " . QuotationDurationType::REGULAR->value . " days.");
+
+        return self::SUCCESS;
     }
 }
