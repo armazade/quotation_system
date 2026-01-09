@@ -14,6 +14,7 @@ use Domain\Product\Requests\ProductIndexRequest;
 use Domain\Product\Requests\ProductShowRequest;
 use Domain\Product\Requests\ProductStoreRequest;
 use Domain\Product\Requests\ProductUpdateRequest;
+use Domain\Product\Resources\ProductResource;
 use Domain\Product\Services\ProductService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,7 @@ class ProductController extends Controller
             ->withQueryString();
 
         return Inertia::render('Admin/Product/Index', [
-            'products' => $products,
+            'products' => ProductResource::collection($products)->response()->getData(true),
             'canCreate' => Auth::user()->isAdmin(),
             'filters' => [
                 'search' => $search,
@@ -95,8 +96,10 @@ class ProductController extends Controller
             abort(404);
         }
 
+        $product->load(['supplier', 'profileImages', 'deliveryOptions']);
+
         return Inertia::render('Admin/Product/Show', [
-            'product' => $product,
+            'product' => new ProductResource($product),
             'canEdit' => Auth::user()->isAdmin(),
         ]);
     }
@@ -108,8 +111,10 @@ class ProductController extends Controller
             ->orderBy('name')
             ->pluck('name', 'id');
 
+        $product->load(['supplier', 'profileImages', 'deliveryOptions']);
+
         return Inertia::render('Admin/Product/Edit', [
-            'product' => $product,
+            'product' => new ProductResource($product),
             'suppliers' => $suppliers,
         ]);
     }

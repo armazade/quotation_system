@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use Domain\Company\Resources\AuthCompanyResource;
+use Domain\User\Resources\AuthUserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -19,9 +21,6 @@ class HandleInertiaRequests extends Middleware
 
     /**
      * Determine the current asset version.
-     *
-     * @param Request $request
-     * @return string|null
      */
     public function version(Request $request): ?string
     {
@@ -30,9 +29,6 @@ class HandleInertiaRequests extends Middleware
 
     /**
      * Define the props that are shared by default.
-     *
-     * @param Request $request
-     * @return array
      */
     public function share(Request $request): array
     {
@@ -44,7 +40,7 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'flash' => [
-                'message' => fn () => $request->session()->get('message')
+                'message' => fn () => $request->session()->get('message'),
             ],
             'locale' => fn () => App::getLocale(),
         ]);
@@ -57,7 +53,7 @@ class HandleInertiaRequests extends Middleware
     {
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             return [
                 'user' => null,
                 'company' => null,
@@ -76,8 +72,8 @@ class HandleInertiaRequests extends Middleware
             ->toArray();
 
         return [
-            'user' => $user,
-            'company' => $user->company,
+            'user' => new AuthUserResource($user),
+            'company' => $user->company ? new AuthCompanyResource($user->company) : null,
             'permissions' => $permissions,
         ];
     }

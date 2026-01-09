@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Domain\Admin\Requests\QuotationAdminIndexRequest;
 use Domain\Admin\Requests\QuotationDestroyRequest;
 use Domain\Company\Models\Company;
+use Domain\Company\Resources\CompanyResource;
 use Domain\Helper\Enums\FlashMessageType;
 use Domain\Helper\Enums\FlashType;
 use Domain\Quotation\Enums\QuotationStatusType;
@@ -13,6 +14,7 @@ use Domain\Quotation\Models\Quotation;
 use Domain\Quotation\Requests\QuotationShowRequest;
 use Domain\Quotation\Requests\QuotationStoreRequest;
 use Domain\Quotation\Requests\QuotationUpdateRequest;
+use Domain\Quotation\Resources\QuotationResource;
 use Domain\Quotation\Services\QuotationService;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -33,7 +35,7 @@ class QuotationController extends Controller
         );
 
         return Inertia::render('Admin/Quotation/Index', [
-            'quotations' => $quotations,
+            'quotations' => QuotationResource::collection($quotations)->response()->getData(true),
             'quotationStatusTypes' => QuotationStatusType::getActiveStatusesDropdown(true),
         ]);
     }
@@ -43,7 +45,7 @@ class QuotationController extends Controller
         $companies = Company::orderBy('name')->get();
 
         return Inertia::render('Admin/Quotation/Create', [
-            'companies' => $companies,
+            'companies' => CompanyResource::collection($companies),
         ]);
     }
 
@@ -70,7 +72,7 @@ class QuotationController extends Controller
         ]);
 
         return Inertia::render('Admin/Quotation/Show', [
-            'quotation' => $quotation,
+            'quotation' => new QuotationResource($quotation),
         ]);
     }
 
@@ -79,8 +81,8 @@ class QuotationController extends Controller
         $companies = Company::orderBy('name')->get();
 
         return Inertia::render('Admin/Quotation/Edit', [
-            'quotation' => $quotation,
-            'companies' => $companies,
+            'quotation' => new QuotationResource($quotation),
+            'companies' => CompanyResource::collection($companies),
         ]);
     }
 

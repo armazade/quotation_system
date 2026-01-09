@@ -4,16 +4,17 @@ namespace Domain\Quotation\Controllers;
 
 use App\Http\Controllers\Controller;
 use Domain\Admin\Requests\QuotationDestroyRequest;
-use Domain\Company\Models\Company;
+use Domain\Company\Resources\AuthCompanyResource;
 use Domain\Helper\Enums\FlashMessageType;
 use Domain\Helper\Enums\FlashType;
 use Domain\Helper\Services\FlashMessageService;
 use Domain\Product\Models\Product;
+use Domain\Product\Resources\ProductResource;
 use Domain\Quotation\Models\Quotation;
 use Domain\Quotation\Requests\ClientQuotationStoreRequest;
-use Domain\Quotation\Requests\QuotationCreateRequest;
 use Domain\Quotation\Requests\QuotationIndexRequest;
 use Domain\Quotation\Requests\QuotationShowRequest;
+use Domain\Quotation\Resources\QuotationResource;
 use Domain\Quotation\Services\QuotationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ class QuotationController extends Controller
         );
 
         return Inertia::render('Client/Quotation/Index', [
-            'quotations' => $quotations,
+            'quotations' => QuotationResource::collection($quotations)->response()->getData(true),
             'quotationTotal' => $quotations->count(),
         ]);
     }
@@ -46,7 +47,7 @@ class QuotationController extends Controller
         ]);
 
         return Inertia::render('Client/Quotation/Show', [
-            'quotation' => $quotation,
+            'quotation' => new QuotationResource($quotation),
         ]);
     }
 
@@ -92,9 +93,9 @@ class QuotationController extends Controller
         }
 
         return Inertia::render('Client/Quotation/Create', [
-            'products' => $products,
-            'company' => $company,
-            'preselectedProduct' => $preselectedProduct,
+            'products' => ProductResource::collection($products),
+            'company' => $company ? new AuthCompanyResource($company) : null,
+            'preselectedProduct' => $preselectedProduct ? new ProductResource($preselectedProduct) : null,
         ]);
     }
 }

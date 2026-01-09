@@ -8,6 +8,7 @@ use Domain\Admin\Requests\CompanyDestroyRequest;
 use Domain\Admin\Requests\CompanyUpdateRequest;
 use Domain\Company\Enums\CountryCodeType;
 use Domain\Company\Models\Company;
+use Domain\Company\Resources\CompanyResource;
 use Domain\Company\Services\CompanyService;
 use Domain\Helper\Enums\FlashMessageType;
 use Domain\Helper\Enums\FlashType;
@@ -30,11 +31,10 @@ class CompanyController extends Controller
             'users',
         ]);
 
-
         $quotationCount = $company->quotations()->count();
 
         return Inertia::render('Admin/Company/Show', [
-            'company' => $company,
+            'company' => new CompanyResource($company),
             'quotationCount' => $quotationCount,
         ]);
     }
@@ -45,13 +45,13 @@ class CompanyController extends Controller
 
         return Inertia::render('Admin/Company/Edit', [
             'countryCodeTypes' => $countryCodeTypes,
-            'company' => $company,
+            'company' => new CompanyResource($company),
         ]);
     }
 
     public function update(CompanyUpdateRequest $request, Company $company): RedirectResponse
     {
-        $validated = (object)$request->validated();
+        $validated = (object) $request->validated();
 
         $company = CompanyService::update($company, $validated);
 
@@ -69,7 +69,7 @@ class CompanyController extends Controller
 
     public function destroy(CompanyDestroyRequest $request, Company $company): RedirectResponse
     {
-        $route = 'admin.' . $company->company_type->value . '.index';
+        $route = 'admin.'.$company->company_type->value.'.index';
 
         CompanyService::destroy($company);
 
