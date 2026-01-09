@@ -25,7 +25,7 @@ class UserFactory extends Factory
             'locale_type' => fake()->randomElement(LocaleType::cases()),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => Hash::make('schutpassword'),
+            'password' => Hash::make(env('SEED_PASSWORD', Str::random(16))),
             'remember_token' => Str::random(10),
         ];
     }

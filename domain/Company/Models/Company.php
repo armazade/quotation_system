@@ -124,6 +124,10 @@ class Company extends Model
         'company_type' => CompanyType::class,
         'industry_type' => IndustryType::class,
         'is_schut' => 'boolean',
+        'iban_number' => 'encrypted',
+        'bic_number' => 'encrypted',
+        'vat_number' => 'encrypted',
+        'coc_number' => 'encrypted',
     ];
 
     protected static function newFactory(): CompanyFactory
