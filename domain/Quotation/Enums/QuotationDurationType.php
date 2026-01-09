@@ -8,5 +8,5 @@ enum QuotationDurationType: int
 {
     use EnumTrait;
 
-    case REGULAR = 31;
+    case REGULAR = 14;
 }

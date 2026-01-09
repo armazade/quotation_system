@@ -17,7 +17,7 @@ class CompanyService
             ->orderByDesc('created_at');
 
         if (isset($companyName)) {
-            $query->where('name', 'like', '%' . $companyName . '%');
+            $query->where('name', 'like', '%'.$companyName.'%');
         }
 
         if (isset($type)) {
@@ -40,6 +40,7 @@ class CompanyService
         $company->coc_number = $data->coc_number;
         $company->iban_number = $data->iban_number;
         $company->bic_number = $data->bic_number;
+        $company->debiteur_number = $data->debiteur_number ?? $company->debiteur_number;
 
         return $company;
     }

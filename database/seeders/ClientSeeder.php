@@ -2,28 +2,22 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\CommentFactory;
 use Database\Factories\CompanyFactory;
 use Database\Factories\CompanyLocationFactory;
-use Database\Factories\CreditTransactionFactory;
 use Database\Factories\UserFactory;
 use Domain\Company\Enums\CompanyType;
+use Domain\User\Enums\RoleType;
 use Illuminate\Database\Seeder;
 
 class ClientSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run(): void
     {
-        CompanyFactory::new()
+        $companies = CompanyFactory::new()
             ->state([
-                'company_type' => CompanyType::CLIENT
+                'company_type' => CompanyType::CLIENT,
             ])
-            ->count(25)
+            ->count(30)
             ->has(
                 CompanyLocationFactory::new()
                     ->state([
@@ -37,8 +31,15 @@ class ClientSeeder extends Seeder
             )
             ->has(
                 UserFactory::new()
-                    ->count(1)
+                    ->count(1), 'users'
             )
             ->create();
+
+        // Assign client role to all users
+        foreach ($companies as $company) {
+            foreach ($company->users as $user) {
+                $user->assignRole(RoleType::CLIENT->value);
+            }
+        }
     }
 }

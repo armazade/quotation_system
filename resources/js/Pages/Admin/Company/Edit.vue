@@ -43,6 +43,7 @@ export default {
             iban_number: props.company.iban_number,
             bic_number: props.company.bic_number,
             exact_id: props.company.exact_id,
+            debiteur_number: props.company.debiteur_number,
         })
 
         return {form}

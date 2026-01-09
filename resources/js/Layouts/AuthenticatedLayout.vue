@@ -38,7 +38,7 @@ const isQuotationRoute = computed(() => {
 
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100 flex flex-col">
             <!-- Navigation -->
             <nav class="border-b border-gray-100 bg-white">
                 <!-- Primary Navigation Menu -->
@@ -232,7 +232,7 @@ const isQuotationRoute = computed(() => {
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="flex-grow">
                 <div class="admin_page_container">
                     <div class="content">
                         <!-- Flash Messages -->
@@ -345,6 +345,26 @@ const isQuotationRoute = computed(() => {
                     </div>
                 </div>
             </main>
+
+            <!-- Footer -->
+            <footer class="bg-blue-900 text-white py-6 mt-auto">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="text-center md:text-left">
+                            <img alt="Schut Logo" src="/images/schut_logo.png" class="h-10 brightness-0 invert">
+                        </div>
+                        <div class="text-center md:text-right">
+                            <p class="font-semibold">Questions? Contact our sales team:</p>
+                            <p class="text-blue-200">Tom van der Voort</p>
+                            <p>
+                                <a href="mailto:sales@schut.nl" class="text-white hover:text-blue-200 underline">
+                                    sales@schut.nl
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 </template>

@@ -41,6 +41,10 @@ const deliveryCost = computed(() => {
             <h3 class="text-lg font-semibold mb-4">{{ __('company_details') }}</h3>
             <div class="grid grid-cols-2 gap-4">
                 <div>
+                    <span class="text-gray-500">{{ __('debiteur_number') }}:</span>
+                    <span class="ml-2 font-semibold">{{ quotation.company.debiteur_number || '-' }}</span>
+                </div>
+                <div>
                     <span class="text-gray-500">{{ __('company_name') }}:</span>
                     <real-button :href="route('admin.company.show', { company: quotation.company.id })" class="ml-2">
                         {{ quotation.company.name }}
@@ -48,7 +52,7 @@ const deliveryCost = computed(() => {
                 </div>
                 <div>
                     <span class="text-gray-500">{{ __('created_at') }}:</span>
-                    <span class="ml-2">{{ moment(quotation.created_at).format("YYYY-MM-DD HH:mm") }}</span>
+                    <span class="ml-2">{{ moment(quotation.created_at).format("DD-MM-YYYY HH:mm") }}</span>
                 </div>
                 <div v-if="quotation.user">
                     <span class="text-gray-500">{{ __('user') }}:</span>

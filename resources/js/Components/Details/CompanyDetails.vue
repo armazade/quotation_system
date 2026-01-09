@@ -21,6 +21,10 @@ const props = defineProps({
                 <table>
                     <tbody>
                     <tr>
+                        <th>{{ __('debiteur_number') }}</th>
+                        <td class="font-semibold">{{ company.debiteur_number || '-' }}</td>
+                    </tr>
+                    <tr>
                         <th>{{ __('company_name') }}</th>
                         <td>{{ company.name }}</td>
                     </tr>

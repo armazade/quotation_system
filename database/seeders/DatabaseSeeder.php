@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $seeders[] = ProductSeeder::class;
         $seeders[] = DummyDataSeeder::class;
         $seeders[] = ClientSeeder::class;
+        $seeders[] = QuotationSeeder::class;
 
         $this->call($seeders);
 

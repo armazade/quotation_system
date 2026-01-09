@@ -122,6 +122,14 @@ function submit(company) {
             :label="__('exact_id')"
         />
 
+        <FormTextInput
+            id="debiteur_number"
+            v-model="form.debiteur_number"
+            :error-message="form.errors.debiteur_number"
+            :label="__('debiteur_number')"
+            placeholder="00.000"
+        />
+
         <div class="flex items-left mt-4">
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 {{ __('button.save') }}

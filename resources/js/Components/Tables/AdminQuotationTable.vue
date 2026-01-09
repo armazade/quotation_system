@@ -107,6 +107,7 @@ const submit = () => {
                     <th>{{ __('created_at') }}</th>
                     <th>{{ __('status') }}</th>
                     <th>{{ __('reference') }}</th>
+                    <th v-if="showCompanyName">{{ __('debiteur_number') }}</th>
                     <th v-if="showCompanyName">{{ __('company_name') }}</th>
                     <th v-if="showUserName">{{ __('user') }}</th>
                     <th class="text-right">{{ __('costs_total') }}</th>
@@ -114,7 +115,7 @@ const submit = () => {
                 </thead>
                 <tbody>
                 <tr v-for="quotation in quotations">
-                    <td>{{ moment(quotation.created_at).format("YYYY-MM-DD") }}</td>
+                    <td>{{ moment(quotation.created_at).format("DD-MM-YYYY") }}</td>
                     <td>
                         <QuotationStatusIndicator :status="quotation.status"/>
                     </td>
@@ -125,6 +126,7 @@ const submit = () => {
                             {{ quotation.reference }}
                         </real-button>
                     </td>
+                    <td v-if="showCompanyName">{{ quotation.company.debiteur_number || '-' }}</td>
                     <td v-if="showCompanyName">
                         <real-button :href="route('admin.company.show', { id:  quotation.company.id})">
                             {{ quotation.company.name }}
@@ -136,8 +138,7 @@ const submit = () => {
                     <td class="text-right">{{ formatting.methods.formatEuro(quotation.total_price) }}</td>
                 </tr>
                 <tr v-if="quotations.length === 0">
-                    <td colspan="5">{{ __('no_results') }}</td>
-                    <td v-if="showCompanyName"></td>
+                    <td colspan="7">{{ __('no_results') }}</td>
                 </tr>
                 </tbody>
             </table>

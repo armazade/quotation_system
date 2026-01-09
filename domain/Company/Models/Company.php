@@ -34,6 +34,7 @@ use Illuminate\Support\Carbon;
  * @property CompanyType $company_type
  * @property bool $is_schut
  * @property string $name
+ * @property string|null $debiteur_number
  * @property string|null $email
  * @property CountryCodeType|null $phone_country_code
  * @property string|null $phone_number
@@ -62,6 +63,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $quotations_count
  * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
+ *
  * @method static CompanyFactory factory($count = null, $state = [])
  * @method static Builder|Company newModelQuery()
  * @method static Builder|Company newQuery()
@@ -89,6 +91,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Company whereWebsite($value)
  * @method static Builder|Company withTrashed()
  * @method static Builder|Company withoutTrashed()
+ *
  * @mixin Eloquent
  */
 class Company extends Model
@@ -114,7 +117,6 @@ class Company extends Model
         return $this->hasMany(CompanyLocation::class, 'company_id', 'id')->orderBy('is_default')->orderByDesc('created_at');
     }
 
-
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'supplier_id', 'id')->orderByDesc('created_at');
@@ -125,12 +127,10 @@ class Company extends Model
         return $this->hasOne(CompanyLocation::class, 'company_id', 'id')->where('is_default', 1);
     }
 
-
     public function quotations(): HasMany
     {
         return $this->hasMany(Quotation::class, 'company_id', 'id')->orderByDesc('created_at');
     }
-
 
     public function users(): HasMany
     {
@@ -140,7 +140,7 @@ class Company extends Model
     public function fullPhoneNumber(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->phone_country_code->value . $this->phone_number,
+            get: fn () => $this->phone_country_code->value.$this->phone_number,
         );
     }
 

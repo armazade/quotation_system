@@ -14,8 +14,6 @@ class CompanyUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -24,8 +22,6 @@ class CompanyUpdateRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -48,6 +44,7 @@ class CompanyUpdateRequest extends FormRequest
         $rules['industry_type'] = ['nullable', new Enum(IndustryType::class)];
 
         $rules['exact_id'] = ['nullable', 'string', 'max:255'];
+        $rules['debiteur_number'] = ['nullable', 'string', 'max:6', 'regex:/^\d{2}\.\d{3}$/', 'unique:companies,debiteur_number,'.$this->route('company')?->id];
 
         return $rules;
     }

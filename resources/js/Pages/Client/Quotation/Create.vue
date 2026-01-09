@@ -2,7 +2,6 @@
 import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
-import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
 import FormTextInput from '@/Components/Form/FormTextInput.vue';
 import FormNumberInput from '@/Components/Form/FormNumberInput.vue';
 import FormSelectInput from '@/Components/Form/FormSelectInput.vue';
@@ -131,9 +130,12 @@ function submit() {
                                 :step="1"
                             />
                         </div>
-                        <SecondaryButton type="button" @click="addProduct" class="mb-1">
-                            {{ __('button.cart_add') }}
-                        </SecondaryButton>
+                        <div class="input_group">
+                            <span class="block font-medium text-sm text-gray-700 invisible">Label</span>
+                            <PrimaryButton type="button" @click="addProduct" class="mt-1 whitespace-nowrap">
+                                {{ __('button.cart_add') }}
+                            </PrimaryButton>
+                        </div>
                     </div>
                 </div>
 

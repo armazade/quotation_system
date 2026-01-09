@@ -19,6 +19,7 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => fake()->company(),
+            'debiteur_number' => fake()->unique()->numerify('##.###'),
             'email' => fake()->safeEmail(),
 
             'phone_country_code' => '+31',

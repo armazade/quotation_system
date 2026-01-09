@@ -77,18 +77,20 @@ const submit = () => {
             <table>
                 <thead>
                 <tr>
-                    <th>{{ __('created_at') }}</th>
+                    <th>{{ __('debiteur_number') }}</th>
                     <th>{{ __('company_name') }}</th>
+                    <th>{{ __('created_at') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="company in companies">
-                    <td>{{ moment(company.created_at).format("YYYY-MM-DD") }}</td>
+                    <td>{{ company.debiteur_number || '-' }}</td>
                     <td>
                         <real-button :href="route('admin.company.show', { id:  company.id})">
                             {{ company.name }}
                         </real-button>
                     </td>
+                    <td>{{ moment(company.created_at).format("DD-MM-YYYY") }}</td>
                 </tr>
                 </tbody>
             </table>
