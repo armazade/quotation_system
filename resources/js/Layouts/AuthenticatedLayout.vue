@@ -8,6 +8,7 @@ import NavLink from "@/Components/Miscellaneous/NavLink.vue";
 import ApplicationLogo from "@/Components/Miscellaneous/ApplicationLogo.vue";
 import ResponsiveNavLink from "@/Components/Miscellaneous/ResponsiveNavLink.vue";
 import DropdownLink from "@/Components/Miscellaneous/DropdownLink.vue";
+import LanguageSwitcher from "@/Components/Miscellaneous/LanguageSwitcher.vue";
 
 const showingNavigationDropdown = ref(false);
 const page = usePage();
@@ -85,6 +86,9 @@ const isQuotationRoute = computed(() => {
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
+                            <!-- Language Switcher -->
+                            <LanguageSwitcher />
+
                             <!-- Settings Dropdown -->
                             <div class="relative ms-3">
                                 <Dropdown align="right" width="48">
@@ -195,6 +199,31 @@ const isQuotationRoute = computed(() => {
                         >
                             {{ __('companies') }}
                         </ResponsiveNavLink>
+                    </div>
+
+                    <!-- Responsive Language Switcher -->
+                    <div class="border-t border-gray-200 py-3 px-4">
+                        <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{{ __('language') }}</div>
+                        <div class="flex gap-2">
+                            <a
+                                v-for="lang in [
+                                    { code: 'en', name: 'EN', flag: '🇬🇧' },
+                                    { code: 'nl', name: 'NL', flag: '🇳🇱' },
+                                    { code: 'de', name: 'DE', flag: '🇩🇪' },
+                                ]"
+                                :key="lang.code"
+                                :href="route('lang.update', { locale: lang.code })"
+                                :class="[
+                                    'flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                                    $page.props.locale === lang.code
+                                        ? 'bg-blue-100 text-blue-700'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                ]"
+                            >
+                                <span>{{ lang.flag }}</span>
+                                <span>{{ lang.name }}</span>
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Responsive Settings Options -->
