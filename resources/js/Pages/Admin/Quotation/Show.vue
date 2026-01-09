@@ -127,8 +127,14 @@ function approveQuotation() {
                 </div>
             </div>
 
-            <div class="mt-4 text-sm text-gray-600 bg-blue-50 p-3 rounded">
-                {{ __('delivery_info') }}
+            <div class="mt-4 text-sm text-gray-600 bg-blue-50 p-4 rounded space-y-2">
+                <p>{{ __('delivery_info') }}</p>
+                <p v-if="quotation.expires_in_days > 0">
+                    {{ __('quotation_valid_for') }} <strong>{{ quotation.expires_in_days }}</strong> {{ __('days') }}
+                </p>
+                <p class="text-xs text-gray-500 pt-2 border-t border-blue-100">
+                    {{ __('quotation_disclaimer') }}
+                </p>
             </div>
         </div>
     </AuthenticatedLayout>

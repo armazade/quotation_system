@@ -31,12 +31,16 @@ class QuotationSeeder extends Seeder
                 ];
                 $status = fake()->randomElement($statusOptions);
 
+                $createdAt = fake()->dateTimeBetween('-5 months', 'now');
+
                 $quotation = QuotationFactory::new()
                     ->forCompany($client)
                     ->state([
                         'user_id' => $user?->id,
                         'status' => $status->value,
-                        'quotation_sent_at' => fake()->dateTimeBetween('-30 days', 'now'),
+                        'quotation_sent_at' => $createdAt,
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt,
                     ])
                     ->create();
 

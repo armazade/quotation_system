@@ -4,7 +4,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import FormTextInput from '@/Components/Form/FormTextInput.vue';
 import FormNumberInput from '@/Components/Form/FormNumberInput.vue';
-import FormSelectInput from '@/Components/Form/FormSelectInput.vue';
 import { formatting } from '@/Mixins/formatting';
 import { translations } from '@/Mixins/translations';
 import { ref, computed } from 'vue';
@@ -14,6 +13,7 @@ const __ = translations.methods.__;
 const props = defineProps({
     products: Array,
     company: Object,
+    preselectedProduct: Object,
 });
 
 const form = useForm({
@@ -23,15 +23,43 @@ const form = useForm({
 
 const selectedProductId = ref(null);
 const selectedQuantity = ref(1);
+const searchQuery = ref('');
+const showDropdown = ref(false);
 
-const productOptions = computed(() => {
-    const options = { '': __('select_product') };
-    props.products.forEach(product => {
-        const brandText = product.brand ? ` (${product.brand})` : '';
-        options[product.id] = `${product.name}${brandText} - ${formatting.methods.formatEuro(product.unit_price)}`;
+// Auto-add preselected product if provided
+if (props.preselectedProduct) {
+    form.lines.push({
+        product_id: props.preselectedProduct.id,
+        description: props.preselectedProduct.name,
+        quantity: 1,
+        unit_price: props.preselectedProduct.unit_price,
+        product: props.preselectedProduct,
     });
-    return options;
+}
+
+const filteredProducts = computed(() => {
+    if (!searchQuery.value) return props.products.slice(0, 10);
+
+    const query = searchQuery.value.toLowerCase();
+    return props.products.filter(product => {
+        return product.name.toLowerCase().includes(query) ||
+               product.article_number?.toLowerCase().includes(query) ||
+               product.brand?.toLowerCase().includes(query);
+    }).slice(0, 10);
 });
+
+function selectProduct(product) {
+    selectedProductId.value = product.id;
+    const brandText = product.brand ? ` (${product.brand})` : '';
+    searchQuery.value = `${product.article_number} - ${product.name}${brandText}`;
+    showDropdown.value = false;
+}
+
+function clearSearch() {
+    searchQuery.value = '';
+    selectedProductId.value = null;
+    showDropdown.value = false;
+}
 
 const subtotal = computed(() => {
     return form.lines.reduce((sum, line) => sum + (line.quantity * line.unit_price), 0);
@@ -68,7 +96,7 @@ function addProduct() {
         });
     }
 
-    selectedProductId.value = null;
+    clearSearch();
     selectedQuantity.value = 1;
 }
 
@@ -113,13 +141,33 @@ function submit() {
                     <h3 class="text-lg font-semibold mb-2">{{ __('products') }}</h3>
 
                     <div class="flex gap-4 items-end">
-                        <div class="flex-1">
-                            <FormSelectInput
-                                id="product_select"
-                                v-model="selectedProductId"
-                                :label="__('product')"
-                                :options="productOptions"
+                        <div class="flex-1 relative">
+                            <label class="block font-medium text-sm text-gray-700 mb-1">{{ __('product') }}</label>
+                            <input
+                                type="text"
+                                v-model="searchQuery"
+                                @focus="showDropdown = true"
+                                @blur="setTimeout(() => showDropdown = false, 200)"
+                                :placeholder="__('search_product_placeholder')"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             />
+                            <div
+                                v-if="showDropdown && filteredProducts.length > 0"
+                                class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto"
+                            >
+                                <div
+                                    v-for="product in filteredProducts"
+                                    :key="product.id"
+                                    @mousedown="selectProduct(product)"
+                                    class="px-4 py-2 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                                >
+                                    <div class="font-medium text-gray-900">{{ product.article_number }} - {{ product.name }}</div>
+                                    <div class="text-sm text-gray-500 flex justify-between">
+                                        <span>{{ product.brand || '-' }}</span>
+                                        <span class="font-semibold text-blue-700">{{ formatting.methods.formatEuro(product.unit_price) }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="w-32">
                             <FormNumberInput
@@ -132,7 +180,7 @@ function submit() {
                         </div>
                         <div class="input_group">
                             <span class="block font-medium text-sm text-gray-700 invisible">Label</span>
-                            <PrimaryButton type="button" @click="addProduct" class="mt-1 whitespace-nowrap">
+                            <PrimaryButton type="button" @click="addProduct" class="mt-1 whitespace-nowrap" :disabled="!selectedProductId">
                                 {{ __('button.cart_add') }}
                             </PrimaryButton>
                         </div>

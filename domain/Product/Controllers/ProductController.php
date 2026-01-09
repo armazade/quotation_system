@@ -24,14 +24,28 @@ class ProductController extends Controller
 {
     public function index(ProductIndexRequest $request): Response
     {
+        $search = $request->input('search');
+
         $products = Product::query()
             ->with('supplier')
             ->when(! Auth::user()->isAdmin(), fn ($query) => $query->where('is_active', true))
-            ->paginate(10);
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('article_number', 'like', "%{$search}%")
+                        ->orWhere('brand', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('name')
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('Admin/Product/Index', [
             'products' => $products,
             'canCreate' => Auth::user()->isAdmin(),
+            'filters' => [
+                'search' => $search,
+            ],
         ]);
     }
 

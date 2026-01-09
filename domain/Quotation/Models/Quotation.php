@@ -127,7 +127,7 @@ class Quotation extends Model
     public function expiresInDays(): Attribute
     {
         return Attribute::make(
-            get: fn () => isset($this->quotation_sent_at) ? now()->diffInDays($this->expires_at, false) : null,
+            get: fn () => isset($this->quotation_sent_at) ? (int) ceil(now()->diffInDays($this->expires_at, false)) : null,
         );
     }
 

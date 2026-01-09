@@ -24,11 +24,15 @@ class QuotationFactory extends Factory
             QuotationStatusType::ACTIVE,
         ]);
 
+        $createdAt = fake()->dateTimeBetween('-5 months', 'now');
+
         return [
             'user_id' => User::inRandomOrder()->first(),
             'reference' => fake()->randomNumber(8, true),
             'status' => $status->value,
-            'quotation_sent_at' => fake()->dateTime(),
+            'quotation_sent_at' => $createdAt,
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
 
