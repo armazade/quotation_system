@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class QuotationService
 {
-    public static function adminIndex(?QuotationStatusType $status = null, ?string $reference = null, ?string $companyName = null, int $perPage = 10): LengthAwarePaginator
+    public static function adminIndex(?QuotationStatusType $status = null, ?string $reference = null, ?string $companyName = null, ?string $debiteurNumber = null, int $perPage = 10): LengthAwarePaginator
     {
         $query = Quotation::query()
             ->with(['company', 'lines'])
+            ->whereIn('status', [QuotationStatusType::IN_REVIEW, QuotationStatusType::ACTIVE])
             ->orderByDesc('created_at');
 
         if (isset($status)) {
@@ -28,6 +29,12 @@ class QuotationService
         if (isset($companyName)) {
             $query->whereHas('company', function ($q) use ($companyName) {
                 $q->where('name', 'like', '%'.$companyName.'%');
+            });
+        }
+
+        if (isset($debiteurNumber)) {
+            $query->whereHas('company', function ($q) use ($debiteurNumber) {
+                $q->where('debiteur_number', 'like', '%'.$debiteurNumber.'%');
             });
         }
 

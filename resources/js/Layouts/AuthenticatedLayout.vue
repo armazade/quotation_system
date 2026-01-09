@@ -284,7 +284,7 @@ const isQuotationRoute = computed(() => {
                                         <span class="sr-only">Check icon</span>
                                     </div>
                                     <div class="ms-3 text-sm font-normal">
-                                        {{ $page.props.flash.message.value }}
+                                        {{ __($page.props.flash.message.value, { first_name: user?.first_name }) }}
                                     </div>
                                 </div>
                             </div>
@@ -306,7 +306,7 @@ const isQuotationRoute = computed(() => {
                                         <span class="sr-only">Error icon</span>
                                     </div>
                                     <div class="ms-3 text-sm font-normal">
-                                        {{ $page.props.flash.message.value }}
+                                        {{ __($page.props.flash.message.value, { first_name: user?.first_name }) }}
                                     </div>
                                 </div>
                             </div>
@@ -329,7 +329,7 @@ const isQuotationRoute = computed(() => {
                                         <span class="sr-only">Warning icon</span>
                                     </div>
                                     <div class="ms-3 text-sm font-normal">
-                                        {{ $page.props.flash.message.value }}
+                                        {{ __($page.props.flash.message.value, { first_name: user?.first_name }) }}
                                     </div>
                                 </div>
                             </div>
@@ -379,7 +379,7 @@ const isQuotationRoute = computed(() => {
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                         <div class="text-center md:text-left">
-                            <img alt="Schut Logo" src="/images/schut_logo.png" class="h-10 brightness-0 invert">
+                            <img alt="Schut Logo" src="/images/schut_logo.png" class="h-10">
                         </div>
                         <div class="text-center md:text-right">
                             <p class="font-semibold">Questions? Contact our sales team:</p>

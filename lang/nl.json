@@ -170,7 +170,7 @@
     "flash.technical_drawing_deleted": "Werktekening succesvol verwijderd!",
     "flash.technical_drawing_updated": "Werktekening succesvol bijgewerkt!",
     "flash.transfer_custom_pricing_missing": "Het prijstabel voor de aangepaste maat ontbreekt",
-    "flash.user_authenticated": "Welkom terug!",
+    "flash.user_authenticated": "Welkom terug, :first_name!",
     "free_credits": "Gratis credits",
     "has_blocker": "Blocker nodig",
     "has_blocker_default": "Blocker inbegrepen",

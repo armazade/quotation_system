@@ -168,7 +168,7 @@
     "flash.technical_drawing_deleted": "Technische Zeichnung erfolgreich gelöscht!",
     "flash.technical_drawing_updated": "Technische Zeichnung erfolgreich aktualisiert!",
     "flash.transfer_custom_pricing_missing": "Please upload the price table for the custom size",
-    "flash.user_authenticated": "Willkommen zurück!",
+    "flash.user_authenticated": "Willkommen zuruck, :first_name!",
     "free_credits": "Free credits",
     "has_blocker": "Hat Blocker",
     "has_blocker_default": "Has blocker by default",

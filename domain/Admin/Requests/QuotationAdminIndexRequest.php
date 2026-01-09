@@ -30,6 +30,7 @@ class QuotationAdminIndexRequest extends FormRequest
         $rules = [];
         $rules['reference'] = ['nullable', 'string', 'max:255'];
         $rules['company_name'] = ['nullable', 'string', 'max:255'];
+        $rules['debiteur_number'] = ['nullable', 'string', 'max:255'];
         $rules['quotation_status'] = ['nullable', new Enum(QuotationStatusType::class)];
 
         return $rules;

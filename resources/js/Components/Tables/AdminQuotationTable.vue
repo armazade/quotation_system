@@ -42,6 +42,7 @@ const form = useForm({
     quotation_status: urlParams.get('quotation_status') ?? null,
     reference: urlParams.get('reference') ?? null,
     company_name: urlParams.get('company_name') ?? null,
+    debiteur_number: urlParams.get('debiteur_number') ?? null,
 });
 
 const submit = () => {
@@ -80,6 +81,13 @@ const submit = () => {
                         v-model="form.company_name"
                         :error-message="form.errors.company_name"
                         :label="__('company_name')"
+                    />
+
+                    <FormTextInput
+                        id="debiteur_number"
+                        v-model="form.debiteur_number"
+                        :error-message="form.errors.debiteur_number"
+                        :label="__('debiteur_number')"
                     />
                 </div>
 

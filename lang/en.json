@@ -141,7 +141,7 @@
     "flash.technical_drawing_deleted": "Technical drawing deleted successfully!",
     "flash.technical_drawing_updated": "Technical drawing updated successfully!",
     "flash.transfer_custom_pricing_missing": "Please upload the price table for the custom size",
-    "flash.user_authenticated": "Welcome back!",
+    "flash.user_authenticated": "Welcome back, :first_name!",
     "free_credits": "Free credits",
     "has_declared_coc": "I declare to be a corporate company registered at the Chamber of Commerce",
     "has_invoice": "Has invoice",

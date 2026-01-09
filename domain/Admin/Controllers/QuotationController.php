@@ -28,12 +28,13 @@ class QuotationController extends Controller
             QuotationStatusType::tryFrom($validated->quotation_status ?? ''),
             $validated->reference ?? null,
             $validated->company_name ?? null,
+            $validated->debiteur_number ?? null,
             10,
         );
 
         return Inertia::render('Admin/Quotation/Index', [
             'quotations' => $quotations,
-            'quotationStatusTypes' => QuotationStatusType::convertToDropdownList(true),
+            'quotationStatusTypes' => QuotationStatusType::getActiveStatusesDropdown(true),
         ]);
     }
 
