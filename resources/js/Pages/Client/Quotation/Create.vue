@@ -3,10 +3,9 @@ import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import FormTextInput from '@/Components/Form/FormTextInput.vue';
-import FormNumberInput from '@/Components/Form/FormNumberInput.vue';
 import { formatting } from '@/Mixins/formatting';
 import { translations } from '@/Mixins/translations';
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 
 const __ = translations.methods.__;
 
@@ -25,6 +24,7 @@ const selectedProductId = ref(null);
 const selectedQuantity = ref(1);
 const searchQuery = ref('');
 const showDropdown = ref(false);
+const searchInput = ref(null);
 
 // Auto-add preselected product if provided
 if (props.preselectedProduct) {
@@ -38,14 +38,18 @@ if (props.preselectedProduct) {
 }
 
 const filteredProducts = computed(() => {
-    if (!searchQuery.value) return props.products.slice(0, 10);
+    let results = props.products;
 
-    const query = searchQuery.value.toLowerCase();
-    return props.products.filter(product => {
-        return product.name.toLowerCase().includes(query) ||
-               product.article_number?.toLowerCase().includes(query) ||
-               product.brand?.toLowerCase().includes(query);
-    }).slice(0, 10);
+    if (searchQuery.value) {
+        const query = searchQuery.value.toLowerCase();
+        results = props.products.filter(product => {
+            return product.name.toLowerCase().includes(query) ||
+                   product.article_number?.toLowerCase().includes(query) ||
+                   product.brand?.toLowerCase().includes(query);
+        });
+    }
+
+    return results.slice(0, 50);
 });
 
 function selectProduct(product) {
@@ -53,6 +57,17 @@ function selectProduct(product) {
     const brandText = product.brand ? ` (${product.brand})` : '';
     searchQuery.value = `${product.article_number} - ${product.name}${brandText}`;
     showDropdown.value = false;
+}
+
+function handleFocus() {
+    showDropdown.value = true;
+}
+
+function handleBlur() {
+    // Delay to allow click on dropdown item
+    setTimeout(() => {
+        showDropdown.value = false;
+    }, 200);
 }
 
 function clearSearch() {
@@ -125,8 +140,8 @@ function submit() {
             <h2 class="admin_page_header">{{ __('quotation.create') }}</h2>
         </template>
 
-        <div class="admin_form_container">
-            <form @submit.prevent="submit">
+        <div class="bg-white shadow-sm sm:rounded-lg">
+            <form @submit.prevent="submit" class="px-6 py-4">
                 <FormTextInput
                     id="reference"
                     v-model="form.reference"
@@ -138,27 +153,31 @@ function submit() {
                 <hr class="base-hr">
 
                 <div class="mb-4">
-                    <h3 class="text-lg font-semibold mb-2">{{ __('products') }}</h3>
+                    <h3 class="text-lg font-semibold mb-3">{{ __('products') }}</h3>
 
-                    <div class="flex gap-4 items-end">
+                    <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-end">
+                        <!-- Product Search -->
                         <div class="flex-1 relative">
                             <label class="block font-medium text-sm text-gray-700 mb-1">{{ __('product') }}</label>
                             <input
+                                ref="searchInput"
                                 type="text"
                                 v-model="searchQuery"
-                                @focus="showDropdown = true"
-                                @blur="setTimeout(() => showDropdown = false, 200)"
+                                @focus="handleFocus"
+                                @blur="handleBlur"
                                 :placeholder="__('search_product_placeholder')"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             />
+                            <!-- Dropdown positioned fixed to avoid overflow issues -->
                             <div
                                 v-if="showDropdown && filteredProducts.length > 0"
-                                class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto"
+                                class="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-80 overflow-auto"
+                                style="position: absolute;"
                             >
                                 <div
                                     v-for="product in filteredProducts"
                                     :key="product.id"
-                                    @mousedown="selectProduct(product)"
+                                    @mousedown.prevent="selectProduct(product)"
                                     class="px-4 py-2 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
                                 >
                                     <div class="font-medium text-gray-900">{{ product.article_number }} - {{ product.name }}</div>
@@ -169,18 +188,27 @@ function submit() {
                                 </div>
                             </div>
                         </div>
-                        <div class="w-32">
-                            <FormNumberInput
-                                id="quantity_select"
-                                v-model="selectedQuantity"
-                                :label="__('quantity')"
-                                :min="1"
-                                :step="1"
+
+                        <!-- Quantity -->
+                        <div class="w-full sm:w-24">
+                            <label class="block font-medium text-sm text-gray-700 mb-1">{{ __('quantity') }}</label>
+                            <input
+                                type="number"
+                                v-model.number="selectedQuantity"
+                                min="1"
+                                step="1"
+                                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             />
                         </div>
-                        <div class="input_group">
-                            <span class="block font-medium text-sm text-gray-700 invisible">Label</span>
-                            <PrimaryButton type="button" @click="addProduct" class="mt-1 whitespace-nowrap" :disabled="!selectedProductId">
+
+                        <!-- Add Button -->
+                        <div class="w-full sm:w-auto">
+                            <PrimaryButton
+                                type="button"
+                                @click="addProduct"
+                                class="w-full sm:w-auto whitespace-nowrap"
+                                :disabled="!selectedProductId"
+                            >
                                 {{ __('button.cart_add') }}
                             </PrimaryButton>
                         </div>

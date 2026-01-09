@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import Dropdown from "@/Components/Miscellaneous/Dropdown.vue";
 
@@ -7,9 +7,9 @@ const page = usePage();
 const currentLocale = computed(() => page.props.locale || 'en');
 
 const languages = [
-    { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'nl', name: 'Nederlands', flag: '🇳🇱' },
-    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+    { code: 'en', name: 'EN' },
+    { code: 'nl', name: 'NL' },
+    { code: 'de', name: 'DE' },
 ];
 
 const currentLanguage = computed(() => {
@@ -22,16 +22,15 @@ const otherLanguages = computed(() => {
 </script>
 
 <template>
-    <Dropdown align="right" width="48">
+    <Dropdown align="right" width="32">
         <template #trigger>
             <button
                 type="button"
-                class="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                class="inline-flex items-center gap-1 bg-transparent px-3 py-2 text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
             >
-                <span class="text-lg leading-none">{{ currentLanguage.flag }}</span>
-                <span class="hidden sm:inline">{{ currentLanguage.code.toUpperCase() }}</span>
+                <span>{{ currentLanguage.name }}</span>
                 <svg
-                    class="h-4 w-4 text-gray-400"
+                    class="h-4 w-4"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -51,10 +50,9 @@ const otherLanguages = computed(() => {
                     v-for="lang in otherLanguages"
                     :key="lang.code"
                     :href="route('lang.update', { locale: lang.code })"
-                    class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                 >
-                    <span class="text-lg leading-none">{{ lang.flag }}</span>
-                    <span>{{ lang.name }}</span>
+                    {{ lang.name }}
                 </a>
             </div>
         </template>
